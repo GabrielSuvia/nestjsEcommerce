@@ -1,4 +1,4 @@
-import { Test, TestingModule } from "@nestjs/testing";
+import { Test} from "@nestjs/testing";
 import { UserService } from "../Users/users.service";
 import { UserRepository } from "../Users/users.repository";
 
@@ -18,7 +18,7 @@ let userService: UserService;
 let userRepository;
 
 beforeEach(async ()=>{
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
         providers:[UserService,
             {provide: UserRepository, useFactory: userMocksRepository},
         ]
@@ -27,7 +27,6 @@ beforeEach(async ()=>{
     userService = module.get<UserService>(UserService);
     userRepository = module.get<UserRepository>(UserRepository);
     }
-
 )
 
 const userMock = {id:'1hjsahdlj2lkdla3lssd',

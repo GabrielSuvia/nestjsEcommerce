@@ -4,24 +4,36 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateLoginDto } from 'src/DTOs/createLogin.dto';
 import { Users } from 'src/Users/users.entity';
 import { UserCreateDto } from 'src/DTOs/createUser.dto';
-
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { BadRequestException } from '@nestjs/common';
+import * as bcrypt from 'bcrypt'
 
 const mockAuthRepository = ()=> ({
-    authSignin: jest.fn(),
-    signupService: jest.fn()
+    findOneBy: jest.fn(),
+    create: jest.fn(),
+    save:jest.fn()
 })
 
+const mockJwtService =()=> {
+    sign: jest.fn()
+}
+
 describe('authService', ()=>{
-   
-        let authService;
+       let userRepository;
+       let jwtService;
+        let authService:AuthService;
+
         beforeEach(async ()=>{
-        const module= await Test.createTestingModule({
-            providers:[AuthService,JwtService,
-                {provide: AuthService, useValue: mockAuthRepository},
+        const module:TestingModule = await Test.createTestingModule({
+            providers:[AuthService,
+                {provide: getRepositoryToken(Users), useFactory: mockAuthRepository},
+                {provide: JwtService, useFactory: mockJwtService },
             ]
         }).compile();
 
-        authService = module.get<AuthService>(AuthService)
+        authService = module.get<AuthService>(AuthService);
+        jwtService  = module.get<JwtService>(JwtService);
+        userRepository = module.get(getRepositoryToken(Users));
 
         })
 
@@ -37,32 +49,57 @@ describe('authService', ()=>{
           isAdmin:false,
         }
 
-    it('the Authservice should be defined',()=>{
-        expect(authService).toBeDefined();
-    })
-
-
-    it('we wait to register an user',async ()=>{
-        authService.signupService.mockResolvedValue(userMock);
-
-        const result = authService.signupService(userMock,userMock.confirPassword);
-        expect(result.passwordConfir).not.toEqual(userMock.password);
-        expect(authService.signupService).toHaveBeenCalledWith(userMock,userMock.confirPassword);})
-
-
-    it('we wait to return a token for the user on the login',()=>{
-
-     authService.authSignin.mockAuthRepository(userMock.email, userMock.password);
-
-     const result = authService.authSignin(userMock.email, userMock.password);
-     expect(result).toEqual(userMock)
-
-    })
-
-    
-      
-})
-
-
+        describe('authSignin', () => {
+            it('debería lanzar un error si el usuario no se encuentra', async () => {
+              userRepository.findOneBy.mockResolvedValue(null);
+        
+              await expect(authService.authSignin('test@test.com', 'password')).rejects.toThrow(BadRequestException);
+            });
+        
+            it('debería lanzar un error si la contraseña es incorrecta', async () => {
+              const mockUser = { id: '1', email: 'test@test.com', password: 'hashedPassword' };
+              userRepository.findOneBy.mockResolvedValue(mockUser);
+              bcrypt.compare = jest.fn().mockResolvedValue(false);
+        
+              await expect(authService.authSignin('test@test.com', 'password')).rejects.toThrow(BadRequestException);
+            });
+        
+            it('debería retornar un token si las credenciales son correctas', async () => {
+              const mockUser = { id: '1', email: 'test@test.com', password: 'hashedPassword', isAdmin: true };
+              userRepository.findOneBy.mockResolvedValue(mockUser);
+              bcrypt.compare = jest.fn().mockResolvedValue(true);
+              jwtService.sign.mockReturnValue('token');
+        
+              const result = await authService.authSignin('test@test.com', 'password');
+              expect(result).toEqual({ succes: 'user logging in succesfully', token: 'token' });
+            });
+          });
+        
+          describe('signupService', () => {
+            it('debería lanzar un error si las contraseñas no coinciden', async () => {
+        
+              await expect(authService.signupService(userMock)).rejects.toThrow(BadRequestException);
+            });
+        
+            it('debería lanzar un error si la contraseña no se puede encriptar', async () => {
+              bcrypt.hash = jest.fn().mockResolvedValue(null);
+        
+              await expect(authService.signupService(userMock)).rejects.toThrow(BadRequestException);
+            });
+        
+            it('debería crear y retornar el usuario sin la contraseña', async () => {
+              const mockUser: Partial<UserCreateDto> = { email: 'test@test.com', password: 'password' };
+              const hashedPassword = 'hashedPassword';
+              bcrypt.hash = jest.fn().mockResolvedValue(hashedPassword);
+              userRepository.create.mockReturnValue({ ...mockUser, password: hashedPassword });
+              userRepository.save.mockResolvedValue({ ...mockUser, password: hashedPassword });
+        
+              const result = await authService.signupService(mockUser);
+              expect(result).toEqual({ email: 'test@test.com' });
+              expect(userRepository.create).toHaveBeenCalledWith({ ...mockUser, password: hashedPassword });
+              expect(userRepository.save).toHaveBeenCalled();
+            });
+          });
+        });
 
 

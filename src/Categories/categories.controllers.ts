@@ -1,11 +1,8 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Res } from "@nestjs/common";
 import { CategorieService } from "./categories.service";
 import { Categories } from "./categories.entity";
 import { Products } from "src/Products/products.entity";
-
-
-
-
+import { Response } from "express";
 
 
 
@@ -16,107 +13,31 @@ export class CategoriesControllers{
 
    }
 
-   private categories = [{
-    "name": "Iphone 15",
-    "description": "The best smartphone in the world",
-    "price": 199.99,
-    "stock": 12,
-    "category": "smartphone"
-  },
-  {
-    "name": "Samsung Galaxy S23",
-    "description": "The best smartphone in the world",
-    "price": 150.0,
-    "stock": 12,
-    "category": "smartphone"
-  },
-  {
-    "name": "Motorola Edge 40",
-    "description": "The best smartphone in the world",
-    "price": 179.89,
-    "stock": 12,
-    "category": "smartphone"
-  },
-  {
-    "name": "Samsung Odyssey G9",
-    "description": "The best monitor in the world",
-    "price": 299.99,
-    "stock": 12,
-    "category": "monitor"
-  },
-  {
-    "name": "LG UltraGear",
-    "description": "The best monitor in the world",
-    "price": 199.99,
-    "stock": 12,
-    "category": "monitor"
-  },
-  {
-    "name": "Acer Predator",
-    "description": "The best monitor in the world",
-    "price": 150.0,
-    "stock": 12,
-    "category": "monitor"
-  },
-  {
-    "name": "Razer BlackWidow V3",
-    "description": "The best keyboard in the world",
-    "price": 99.99,
-    "stock": 12,
-    "category": "keyboard"
-  },
-  {
-    "name": "Corsair K70",
-    "description": "The best keyboard in the world",
-    "price": 79.99,
-    "stock": 12,
-    "category": "keyboard"
-  },
-  {
-    "name": "Logitech G Pro",
-    "description": "The best keyboard in the world",
-    "price": 59.99,
-    "stock": 12,
-    "category": "keyboard"
-  },
-  {
-    "name": "Razer Viper",
-    "description": "The best mouse in the world",
-    "price": 49.99,
-    "stock": 12,
-    "category": "mouse"
-  },
-  {
-    "name": "Logitech G502 Pro",
-    "description": "The best mouse in the world",
-    "price": 39.99,
-    "stock": 12,
-    "category": "mouse"
-  },
-  {
-    "name": "SteelSeries Rival 3",
-    "description": "The best mouse in the world",
-    "price": 29.99,
-    "stock": 12,
-    "category": "mouse"
-  }
-]
-
     @Get()
-    getCategoriesControllers(){
-           
+    async getCategoriesControllers(@Res() res:Response){
+         try {
+          const cate = await this.categoriesService.getCategoriesService();
+          return res.status(200).send({message:'Categories obtenidas', categories:cate})
+         } catch (error) {
+          throw new HttpException('Server error', HttpStatus.BAD_GATEWAY)
+         } 
+        
     }
 
     @Post('seeded')
-   async addCategoriesControllers(@Body('category') name:string, @Body() products:Partial<Products>){
-           const nameCategories = this.categories.map((cat)=>{
-                  return {name:cat.category, products:cat}
-             });
-    //falta??????
-           nameCategories.map((category) => {
-            return this.categoriesService.addCategorieService(category);
-        })
-           
+   async addCategoriesControllers( @Res() res:Response, @Body() products:{id:string, name:string,description:string,
+    price:number, stock:number, category:string}[] ){
+          try {
+            
+            const categoriasNew: Categories[] = await this.categoriesService.addCategorieService(products);
+            console.log('controllers2',products)
+             return res.status(200).send({message:'received data', dato:categoriasNew})
+         }catch (error) {
+         
+          throw new HttpException('Invalid Category', HttpStatus.BAD_REQUEST)
+        }
+      
+//falta??????
+        }
+        
     }
-    
-}

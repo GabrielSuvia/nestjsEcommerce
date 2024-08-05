@@ -8,6 +8,8 @@ import typeOrmConfig from './config/typeorm';
 import { OrderModule } from './Order/orders.module';
 import { FilesModule } from './Files/file.module';
 import {JwtModule} from '@nestjs/jwt';
+import { Categories } from './Categories/categories.entity';
+import { CategoriesModule } from './Categories/categories.module';
 //import { Users } from './Users/users.entity';
 //import { Products } from './Products/products.entity';
 /*
@@ -55,7 +57,7 @@ import {JwtModule} from '@nestjs/jwt';
       signOptions:{expiresIn:'1h'},
       secret:'UnaClaveSecreta'//Varibale de entorono
     }),
-     UserModule,ProductModule,AuthModule,OrderModule,FilesModule],
+     UserModule,ProductModule,AuthModule,OrderModule,FilesModule,CategoriesModule],
   controllers: [],
   providers: [],
 })

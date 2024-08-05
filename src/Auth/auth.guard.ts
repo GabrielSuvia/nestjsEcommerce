@@ -19,12 +19,9 @@ import { Role } from "src/decorator/roles.enum";
     };
     return true;*/
     
-
-
-
 @Injectable()
 export class AuthGuard implements CanActivate {
-constructor(private readonly jwtService: JwtService){}
+constructor(private readonly jwtService: JwtService){}//with the token generated
 
 canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     
@@ -36,7 +33,7 @@ canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<
       };
 
       try {
-        const secret='variable de entorno';
+        const secret='UnaClaveSecreta';
         const payLoad = this.jwtService.verify(token,{secret});
         payLoad.iat = new Date(payLoad.iat * 1000);
         payLoad.exp = new Date(payLoad.exp * 1000);

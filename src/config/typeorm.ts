@@ -6,7 +6,7 @@ dotenvConfig({path: './.env.development'});
 
 const config={
         type: "postgres",//process.env.DB_NAME
-        database: "postgres",
+        database: "demo",
        host: process.env.DB_HOST,
        port: process.env.DB_PORT as unknown as number,
        username: "postgres",
@@ -15,8 +15,8 @@ const config={
        logging:true,
        synchronize:false,
        entities:['dist/**/*.entity{.js,.ts}'],
-       migrations: ['dist/migrations/*{.js,.ts}'],
+       migrations: ['dist/migrations/*{.js,.ts}'],//comand npm run migration:generate src/migrations/name
 }
-export default registerAs('typeorms',()=> config)
+export default registerAs('typeorms',()=> config)//REVISAR
 
 export const connectionSource = new DataSource(config as DataSourceOptions)

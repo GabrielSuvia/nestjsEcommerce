@@ -1,19 +1,17 @@
 import { Categories } from "src/Categories/categories.entity";
-import { OrderDetails } from "src/OrderDetaill/OrdersDetails.entity";
+import { OrderDetails } from "src/OrderDetaill/orderDetails.entity";
 import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
     name:"products"
 })
 export class Products{
-    map(arg0: (prod: any) => Promise<Products>) {
-        throw new Error("Method not implemented.");
-    }
+  
     @PrimaryGeneratedColumn('uuid')
     id:string
 
     @Column({
-        type:'varchar', length:50, unique:true
+        type:'varchar', length:50, unique:true, nullable:false
     })
     name: string
 
@@ -38,7 +36,7 @@ export class Products{
     imgUrl: string
 
    @OneToMany(()=>Categories, (category)=> category.products)
-    categoryId: string[]
+    categoryId: Categories[]
 
    @ManyToMany(()=>OrderDetails,(orderDetails)=>orderDetails.products)
      orderDetails: OrderDetails[]

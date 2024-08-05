@@ -8,9 +8,10 @@ export const CloudingConfig = {
        provide:'CLOUDING',
        useFactory:()=>{
         return v2.config({
-            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-            api_key: process.env.CLOUDINARY_API_KEY,
-            api_secret: process.env.CLOUDINARY_API_SECRET
+            cloud_name: "dvpgks9ox",
+            api_key:"941642474413476",
+            api_secret:"yBLsELFryHcI8mXHwd8Vf_DWWfQ"
         });
        },
+
 };

@@ -5,6 +5,7 @@ import { AuthGuard } from "src/Auth/auth.guard";
 import { UserCreateDto } from "src/DTOs/createUser.dto";
 import { Roles } from "src/decorator/roles.decorator";
 import { Role } from "src/decorator/roles.enum";//cambiar todos los src -->a
+import { RolesGuard } from "src/Auth/roles.guard";
 
 @Controller('user')
  export class UserControllers{
@@ -12,7 +13,7 @@ import { Role } from "src/decorator/roles.enum";//cambiar todos los src -->a
 
 @Get()
    //@UseGuards(AuthGuard,RolesGuard)
-   @Roles(Role.Admin)//definir guarda de roles, despues del authguard, user/admin ---> Ruta protegida 200
+  // @Roles(Role.Admin)//definir guarda de roles, despues del authguard, user/admin ---> Ruta protegida 200
    async getUsers(@Res() res:Response):Promise<Response>{
     try{
       const users = await this.userService.getUsers();
@@ -23,44 +24,33 @@ import { Role } from "src/decorator/roles.enum";//cambiar todos los src -->a
     }
     
    } 
-//page and limit
 
 @Get('query')
   // @UseGuards(AuthGuard)
-   async getPage(@Query('limit') limit:string, @Query('page') page:string):Promise<Response>{
+   async getPage(@Res() res:Response, @Query('page') page:string, @Query('limit') limit:string):Promise<Response>{
 try{ if(page && limit){
       const users = await this.userService.getUserPage(Number(page),Number(limit))
-      return response.status(200).json({users})
+      return res.status(200).json({users})
     }else{
-      const users = await this.userService.getUserPage(5,1)
-      return response.status(200).json({users})
-    }}catch(error){
+      const users = await this.userService.getUserPage(1,5)
+      console.log(users)
+      return res.status(200).json({users})
+    }
+  }catch(error){
          throw new HttpException('Failed to get users with pagination', HttpStatus.INTERNAL_SERVER_ERROR)
     };
     
-    
    }
-/*
-@Post('register')//auth/signup
-
-  async createUser(@Res() res:Response, @Body() User:Partial<UserCreateDto>):Promise<Response>{
-   try{
-       const user = await this.userService.createUserService(User);
-        return res.status(201).send({message:"User Registered",user});
-      }catch(error){
-      throw new HttpException('Failed to register user', HttpStatus.BAD_REQUEST)
-   }
-       
-}*/
-
 
 @Get(':id')
-//@UseGuards(AuthGuard)
+//@UseGuards(AuthGuard,RolesGuard)
+// @Roles(Role.Admin)//verificate token if it is an admin or user
 async getUser(@Param('id', ParseUUIDPipe) id:string, @Res() res:Response):Promise<Response>{
 try {
    const user = await this.userService.getUser(id);
     return res.status(200).json({user})
-} catch (error) { throw new HttpException('User Not Found',HttpStatus.NOT_FOUND)
+} catch (error) {
+   throw new HttpException('User Not Found',HttpStatus.NOT_FOUND)
 }
 }
 

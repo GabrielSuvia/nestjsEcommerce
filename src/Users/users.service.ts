@@ -7,7 +7,7 @@ import { Users } from "./users.entity";
 export class UserService{
 constructor(private readonly userRepository:UserRepository){}
 
-   async getUsers(): Promise<Partial<Users[]>>{
+   async getUsers(): Promise<Partial<Users>[]>{
     const users = await this.userRepository.getUsers();
         return users;
     }

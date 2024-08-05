@@ -1,5 +1,6 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Type } from 'class-transformer';
-import{IsString, IsNotEmpty, IsEmail, IsStrongPassword, IsArray, IsObject, ValidateNested, MinLength, MaxLength, Matches, IsPhoneNumber, IsBoolean, Validate} from 'class-validator';
+import{IsString, IsNotEmpty, IsEmail, IsArray, ValidateNested, MinLength, MaxLength, Matches, IsPhoneNumber, IsBoolean} from 'class-validator';
 import { Orders } from 'src/Order/orders.entity';
 
 export class UserCreateDto{
@@ -15,7 +16,7 @@ export class UserCreateDto{
 
     @IsString()
     @IsNotEmpty()
-    @MinLength(8)
+    @MinLength(5)
     @MaxLength(15)
     @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])/,
         { message: 'Password too weak' })
@@ -23,11 +24,9 @@ export class UserCreateDto{
 
     @IsString()
     @IsNotEmpty()
-    @MinLength(8)
+    @MinLength(5)
     @MaxLength(15)
     confirPassword:string
-
-
 
     @IsString()
     @IsNotEmpty()
@@ -37,6 +36,9 @@ export class UserCreateDto{
 
     @IsPhoneNumber(null)
     @IsNotEmpty()
+    @ApiProperty({
+        example:7678678
+    })
     phone: number
 
     @IsString()
@@ -58,6 +60,6 @@ export class UserCreateDto{
    @IsArray()
    @ValidateNested({each:true})
    @Type(()=>Orders)
-    orderId: string[]
+    orderId: Orders[]
 
 }

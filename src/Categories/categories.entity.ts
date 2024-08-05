@@ -13,11 +13,12 @@ Relación N:1 con products.
 })
 
 export class Categories{
-    @PrimaryGeneratedColumn()
-    id:number
+ 
+    @PrimaryGeneratedColumn('uuid')
+    id:string
 
     @Column({
-        type:'varchar', length:50, nullable:false
+        type:'varchar', length:50, nullable:false, unique:true
     })
     name:string
 

@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { UserCreateDto } from "src/DTOs/createUser.dto";
 import {JwtService } from "@nestjs/jwt";
 import { Role } from "src/decorator/roles.enum";
+
 @Injectable()
 export class AuthService{
     
@@ -13,15 +14,28 @@ export class AuthService{
                private readonly jtwService: JwtService){
    }
    
+   async getAuthService(){
+          const usersLogin = await this.userRepository.find();
+
+        const userLogin = usersLogin.map((user)=>{
+            const {email,password} = user;
+            return {email,password};
+          })
+          
+          return Promise.all(userLogin);
+   }
+   
     async authSignin(email:string, Password:string): Promise<any | null>{
         const user = await this.userRepository.findOneBy({email});
       
       if(!user){
-        throw new BadRequestException('email or password incorrect')
+        throw new BadRequestException('email or password incorrect');
       };
+
       //encriptacion validate
-     const validatePassword = await bcrypt.compare(Password, user.password );
-     if(!validatePassword){
+     const validatePassword = await bcrypt.compare(Password, user.password );//v or f
+
+     if(validatePassword){
       throw new BadRequestException('User Invalid');
      };
 
@@ -35,20 +49,24 @@ export class AuthService{
       return {succes:'user logging in succesfully',token};//resolver
     }
     
-    async signupService(user: Partial<UserCreateDto>, passwordConfi: Partial<UserCreateDto>){
-            // const User = this.userRepository.findOneBy({email: user.email, password: user.password});
-            const passwordCompare = user.password === passwordConfi;
+    async signupService(user: Partial<UserCreateDto>){
+          
+            const passwordCompare = user.password === user.confirPassword;
              if(!passwordCompare){
                 throw new BadRequestException('email or password  incorrect');
              };
 
-             const bcryptHashedPassword = await bcrypt.hash(user.password,10);
+             const bcryptHashedPassword = await bcrypt.hash(user.password,2);
+
              if(!bcryptHashedPassword){
+
                 throw new BadRequestException('the password is not hashed')
              };
-                const newUser = await this.userRepository.create({...user, password:bcryptHashedPassword})
+             const {confirPassword,...newUse} = user
+                const newUser = await this.userRepository.create({password:bcryptHashedPassword,...newUse})
              await this.userRepository.save(newUser)
-             const {password,...userWithotPassword} = user
+             const {password,...userWithotPassword} = newUser;
+             console.log(password.length)
              
              return userWithotPassword;
     }

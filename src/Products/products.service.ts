@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ProductsRepository } from "./products.repository";
-import { Iproduct } from "./products.interface";
 import { Products } from "./products.entity";
+import { ProductsDto } from "src/DTOs/createProduct.dto";
 
 @Injectable()
 export class ProductService{
@@ -17,10 +17,16 @@ export class ProductService{
         return product;
     }
     
-    async createProductService(newProduct: Partial<Products>) :Promise<Products>{
-        const product = await this.productRepository.createRepository(newProduct);
+    async createSeederProductService(newProduct: ProductsDto[]) :Promise<Partial<ProductsDto>[]>{
+        const product = await this.productRepository.createSeederRepository(newProduct);
         console.log("Producto creado");
         return product;
+    }
+
+    async createProductService(newProduct: ProductsDto) :Promise<string>{
+        const productId = await this.productRepository.createRepository(newProduct);
+        console.log("Producto creado");
+        return productId;
     }
     
     async updateProductService(id:string):Promise<Products>{//???
@@ -34,7 +40,7 @@ export class ProductService{
     }
 
     async basicProductService(page:number, limit:number): Promise<Products[]>{
-        const products=  await this.productRepository.basicProductReository(page,limit)
+        const products =  await this.productRepository.basicProductRepository(page,limit)
         return products;
 }
 }

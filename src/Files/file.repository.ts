@@ -11,8 +11,13 @@ export class FilesRepository{
 
     async updateFile(file: Express.Multer.File, productId:string){
                const product = await this.productRepositoryDB.findOneBy({id:productId})
-                 product.imgUrl = file.fieldname;
-                 await this.productRepositoryDB.save(product);
+               if(product){
+                product.imgUrl = file.fieldname;
+                await this.productRepositoryDB.save(product);
+                console.log('Servicios',product)
+               };
 
+               return product;
+                
     }
 }

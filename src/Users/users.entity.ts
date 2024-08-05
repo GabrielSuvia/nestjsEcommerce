@@ -19,7 +19,7 @@ export class Users{
     name: string
 
     @Column({
-        type:'varchar' , length:20, nullable:false
+        type:'varchar' , length:80, nullable:false
     })
     password: string
 
@@ -42,8 +42,8 @@ export class Users{
     city:string
     
     @Column({default: false, nullable:true})
-    isAdmin : boolean //migrar columna con m-run
+    isAdmin : boolean
 
    @OneToMany(()=>Orders,(orders)=> orders.user_id)
-    orderId: string[]
+    orderId: Orders[]
 }
