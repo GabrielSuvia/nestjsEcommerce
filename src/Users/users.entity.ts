@@ -32,7 +32,7 @@ export class Users{
     phone: number
 
     @Column({
-        type:'varchar', length:50
+        type:'varchar',length:50
     })
     country: string
 
@@ -43,6 +43,7 @@ export class Users{
     
     @Column({default: false, nullable:true})
     isAdmin : boolean
+
 
    @OneToMany(()=>Orders,(orders)=> orders.user_id)
     orderId: Orders[]

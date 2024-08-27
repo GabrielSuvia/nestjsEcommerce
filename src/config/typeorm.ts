@@ -1,16 +1,16 @@
 import {DataSource, DataSourceOptions} from "typeorm";
-import {config as dotenvConfig} from "dotenv";
+import {config as dotenvConfig} from "dotenv"; 
 import { registerAs } from "@nestjs/config";
 
-dotenvConfig({path: './.env.development'});
+dotenvConfig({path: '../../src/.env.development'});
 
 const config={
         type: "postgres",//process.env.DB_NAME
-        database: "demo",
-       host: process.env.DB_HOST,
-       port: process.env.DB_PORT as unknown as number,
-       username: "postgres",
-       password: "Ageofultron123.",
+        database: process.env.DBNAME,
+       host:process.env.DBHOST,
+       port: process.env.DBPORT,
+       username: process.env.DBUSERNAME,
+       password: process.env.DBPASSWORD,
        autoLoadEntities:true,
        logging:true,
        synchronize:false,
