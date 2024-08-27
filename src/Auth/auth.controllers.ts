@@ -9,7 +9,7 @@ import { AuthGuard } from "./auth.guard";
 export class AuthControllers{
     constructor(private readonly authService:AuthService){}
 
-//Get --Auth
+//Get --Auth.
 @Get()
 async getAllAuthControllers(@Res() res:Response){
   try {
