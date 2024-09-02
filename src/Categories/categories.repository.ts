@@ -3,6 +3,7 @@ import { Categories } from "./categories.entity";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Products } from "src/Products/products.entity";
+import { Console } from "console";
 
 @Injectable()
 export class CategoriesRespository{
@@ -12,39 +13,30 @@ export class CategoriesRespository{
 
 
  async getCategories(){
-        const categories =  await this.categoriesDB.find();
+        const categories =  await this.categoriesDB.find({relations:['products']});
         return categories;
  }
 
-async addCategories(products: {name:string, description:string, price:number,
-  stock:number, category:string}[]): Promise<Categories[]>{
-    
+async addCategories(products: {name:string,description:string,
+  price:number, stock:number, category:string}[]): Promise<Categories[]>{
+    console.log("1")
           try {
-            let categoriasType= await this.categoriesDB.find();
-
+            //let categoriasType= await this.categoriesDB.find();
+            console.log("2")
             const categoriesNew = products.map(async (prod)=>{//6
+              
+                  const {category, ...rest} = prod;//en producto
+                  console.log("1")
+                  const createCategoria = await this.categoriesDB.create({name:category});
+                  console.log("2")
+                    await this.categoriesDB.save(createCategoria)
+                    console.log("3");
 
-              for(let cat of categoriasType){//3
-                  if(cat.name === prod.category){
-                    //error
-                    console.log("repetido")
-                    continue;
-                  }
-                  //if this name of category is not in the array then try save
-
-                  const newCategoria = {name:prod.category,products:null};//en producto
-                 
-                  const createCategoria = await this.categoriesDB.create(newCategoria);
-          
-                  console.log("categoriaRute2", createCategoria)
-                    await this.categoriesDB.save(createCategoria);
                   return createCategoria;
-    
               }
-             
-            });
-
+            );
             return Promise.all(categoriesNew) ;
+
           } catch (error) {
             throw new Error('Error');
           }

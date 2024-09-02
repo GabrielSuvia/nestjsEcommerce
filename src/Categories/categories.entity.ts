@@ -1,5 +1,5 @@
 import { Products } from "src/Products/products.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 /*id: debe ser un valor único generado automáticamente en formato UUID. No puede ser nulo y actúa como la clave primaria de la entidad.
 
@@ -20,9 +20,8 @@ export class Categories{
     @Column({
         type:'varchar', length:50, nullable:false, unique:true
     })
-    name:string
+    name:string//mouse
 
-    @ManyToOne(()=>Products,(products)=>products.categoryId)
-    products: Products
-
+    @OneToMany(()=>Products, (product)=> product.categoryId)
+    products: Products[]
 }

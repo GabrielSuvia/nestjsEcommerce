@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
 constructor(private readonly jwtService: JwtService){}//with the token generated
 
 canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-    
+     
     const request = context.switchToHttp().getRequest();
     const token = request.headers['authorization']?.split(' ')[1]?? '';//catch element 1---0,1
 

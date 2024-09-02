@@ -10,8 +10,8 @@ export class CategorieService{
          return categories;
    }
 
-  async addCategorieService (products:{name:string, description:string, price:number,
-    stock:number, category:string}[]) {
+  async addCategorieService (products:{name:string,description:string,
+    price:number, stock:number, category:string}[]) {
       
     const newCategories = await this.categoriesRepository.addCategories(products);
      return newCategories;

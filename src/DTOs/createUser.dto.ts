@@ -52,10 +52,7 @@ export class UserCreateDto{
     @MinLength(5)
     @MaxLength(20)
     city:string
-    
-    @IsDate()
-    date: Date
-    
+
     @Exclude()
     @IsBoolean()
     isAdmin:boolean

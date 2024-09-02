@@ -4,6 +4,7 @@ import { Response } from "express";
 import { AuthGuard } from "src/Auth/auth.guard";
 import { ProductsDto } from "src/DTOs/createProduct.dto";
 import { RolesGuard } from "src/Auth/roles.guard";
+import { Products } from "./products.entity";
 
 @Controller('products')
 export class ProductsControllers{
@@ -28,7 +29,6 @@ async getProductBasic( @Res() res:Response, @Query('page') page?:string, @Query(
 @Get()
 async getProducts(@Res() res:Response){
     try {
-        
         const products = await this.productService.getProductsService();
         return res.status(200).json({message:"productos existentes", products:products});
     } catch (error) {
@@ -38,7 +38,7 @@ async getProducts(@Res() res:Response){
 }
 
 @Get(':id')
-@UseGuards(AuthGuard,RolesGuard)
+//@UseGuards(AuthGuard,RolesGuard)
 async getProduct(@Res() res:Response, @Param('id', ParseUUIDPipe) id:string){
     try {
         const product = await this.productService.getProductService(id);
@@ -55,9 +55,14 @@ async getProduct(@Res() res:Response, @Param('id', ParseUUIDPipe) id:string){
 //@UseGuards(AuthGuard)
  async createSeederProduct(@Res() res:Response, @Body() newProduct:ProductsDto[]){
        try {//lOAD OF DATA
+        console.log("1","product")
+
         const product = await this.productService.createSeederProductService(newProduct);
+        console.log("2","product2")
+        
         return res.status(201).json({message:"created products", product:product});
        } catch (error) {
+        console.log("error")
         throw new HttpException('Product havent been created', HttpStatus.BAD_REQUEST)
        }
        //hacer post??
@@ -78,16 +83,15 @@ async getProduct(@Res() res:Response, @Param('id', ParseUUIDPipe) id:string){
 
 @Put(':id')
 //@UseGuards(AuthGuard)
- async updateProduct(@Param('id', ParseUUIDPipe) id:string, @Res() res:Response){
+ async updateProduct(@Param('id', ParseUUIDPipe) id:string,@Body() updateProduct: Partial<Products>, @Res() res:Response){
      try {
-        const product = await this.productService.updateProductService(id);
+        const product = await this.productService.updateProductService(id, updateProduct);
        console.log(product)
        return res.status(200).json({message:"Producto actualizado",product: product.id})
 
      } catch (error) {
         throw new HttpException('Invalid Product', HttpStatus.BAD_REQUEST);
      }
-       
  }
 
 @Delete(':id')

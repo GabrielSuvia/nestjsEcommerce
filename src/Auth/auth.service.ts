@@ -21,8 +21,7 @@ export class AuthService{
             const {email,password} = user;
             return {email,password};
           })
-          
-          return Promise.all(userLogin);
+          return (userLogin);//PromiseAll
    }
    
     async authSignin(email:string, Password:string): Promise<any | null>{
@@ -31,14 +30,11 @@ export class AuthService{
       if(!user){
         throw new BadRequestException('email or password incorrect');
       };
-
       //encriptacion validate
      const validatePassword = await bcrypt.compare(Password, user.password );//v or f
-
      if(validatePassword){
       throw new BadRequestException('User Invalid');
      };
-
        const userPayLoad = {
          sub:user.id,
          id:user.id,
@@ -51,7 +47,8 @@ export class AuthService{
     
     async signupService(user: Partial<UserCreateDto>){
           
-            const passwordCompare = user.password === user.confirPassword;
+            const passwordCompare = user.password === user.confirPassword?true : false;
+
              if(!passwordCompare){
                 throw new BadRequestException('email or password  incorrect');
              };
@@ -63,7 +60,8 @@ export class AuthService{
                 throw new BadRequestException('the password is not hashed')
              };
              const {confirPassword,...newUse} = user
-                const newUser = await this.userRepository.create({password:bcryptHashedPassword,...newUse})
+                const newUser = await this.userRepository.create({...newUse,password:bcryptHashedPassword})//orden
+
              await this.userRepository.save(newUser)
              const {password,...userWithotPassword} = newUser;
              console.log(password.length)

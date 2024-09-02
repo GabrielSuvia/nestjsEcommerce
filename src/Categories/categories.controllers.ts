@@ -10,9 +10,7 @@ import { Response } from "express";
 
 export class CategoriesControllers{
    constructor(private categoriesService:CategorieService){
-
    }
-
     @Get()
     async getCategoriesControllers(@Res() res:Response){
          try {
@@ -25,15 +23,14 @@ export class CategoriesControllers{
     }
 
     @Post('seeded')
-   async addCategoriesControllers( @Res() res:Response, @Body() products:{id:string, name:string,description:string,
+   async addCategoriesControllers( @Res() res:Response, @Body() products:{name:string,description:string,
     price:number, stock:number, category:string}[] ){
           try {
-            
+            console.log("entradas")
             const categoriasNew: Categories[] = await this.categoriesService.addCategorieService(products);
             console.log('controllers2',products)
              return res.status(200).send({message:'received data', dato:categoriasNew})
          }catch (error) {
-         
           throw new HttpException('Invalid Category', HttpStatus.BAD_REQUEST)
         }
       

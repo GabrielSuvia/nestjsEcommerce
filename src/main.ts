@@ -18,5 +18,4 @@ const document = SwaggerModule.createDocument(app,swaggerConfig);
   await app.listen(3000);
 }
 
-
 bootstrap();

@@ -9,17 +9,16 @@ export class UserRepository{
    constructor(@InjectRepository(Users) private userRepositoryDB: Repository<Users>){
    }
    private prueba = [{
-    id:1,
-    email:"jose@hotmail.com",
-    name: "jose",
-    password: "Josue321",
-    address: "Avenida nueva vida",
-    phone:"7897689",
-    country:"bolivia",
-    city:"santa cruz"
-    
-}
-    ]
+      "email":"jose123@hotmail.com",
+      "name": "jose",
+      "password": "Josue321",
+      "confirPassword":"Josu23123",
+      "address": "Avenida nueva vida",
+      "phone":"7897689",
+      "country":"bolivia",
+      "city":"santa cruz"
+  }
+   ]
     
  async getUsers(): Promise<Partial<Partial<Users>[]>>{
    const users = await this.userRepositoryDB.find({relations: {orderId:true}})

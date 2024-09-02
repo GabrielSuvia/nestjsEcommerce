@@ -99,7 +99,9 @@ private products = [ {
 ]
 
 async getProducts(){
-    const products = await this.productRepositoryDB.find();
+    const products = await this.productRepositoryDB.find({
+      relations:['categoryId']
+    });
     return products;
 }
 
@@ -111,38 +113,36 @@ async getProduct(id:string){
     return productFound;
 }
 
-async createSeederRepository(newProduct:Partial<ProductsDto>[]):Promise<Partial<ProductsDto>[]>{
-
+async createSeederRepository(newProduct:Partial<ProductsDto>[]):Promise<Partial<Products>[]>{
       //LOAD OF DATA
-    const categoriesList = await this.categoriesRepositoryDB.find();
+    const categoriesList = await this.categoriesRepositoryDB.find();//4 elementos
+         const list = newProduct.map( async (pro) => {
+            
+            for (const cat1 of categoriesList) {
+              console.log(cat1,"===", pro.category)
+              if (cat1.name === pro.category ) {
+             const {category, ...res} =pro 
 
-    
+              const prodNew = await this.productRepositoryDB.create(res);    
+              pro.categoryId = cat1.id;
+              const prodId = await this.productRepositoryDB.save(prodNew);
+              console.log("product saved")
+             
+              
+              cat1.products = cat1.products || [];
+              cat1.products.push(prodId)
+              await this.categoriesRepositoryDB.save(cat1)
+              console.log("cat updated")
 
-    const newProducts = newProduct.map(async (prod)=>{
-      for(const cat of categoriesList){
-           if(cat.name === prod.category){
-            prod.categoryId.push(cat);
-            const {category,...rest} = prod;
+              }
+            }
+           return pro
+          });
 
-            const product = await this.productRepositoryDB.create(rest);
-
-            if(!product){
-              throw new Error("Bad requesting");
-               };
-                await this.productRepositoryDB.save(product);
-               return product;
-           }
-      };
-        return prod;
-    })
-
-   
-   return Promise.all(newProducts);//returna un promise all cuando es un array
-    
+   return Promise.all(list);//returna un promise all cuando es un array
 }
 
 async createRepository(productNew:ProductsDto): Promise<string>{
-  
     const newProduct = await this.productRepositoryDB.create(productNew);
 
     const productExist = await this.productRepositoryDB.findOneBy({name: newProduct.name});
@@ -152,14 +152,16 @@ async createRepository(productNew:ProductsDto): Promise<string>{
       return newProduct.id;
       }
       throw new Error('Name already exist');
-    
 }
 
-async updateRepository(id:string):Promise<Products>{//revision
+async updateRepository(id:string, updateProduct: Partial<Products>):Promise<Products>{//revision
     const idProduct = await this.productRepositoryDB.findOneBy({id});
       if(!idProduct){
           throw new Error("Product not Found");
         };
+        Object.assign(idProduct,updateProduct)
+        await this.productRepositoryDB.save(idProduct)
+        console.log("update product",idProduct)
         return idProduct;//????
     }
 

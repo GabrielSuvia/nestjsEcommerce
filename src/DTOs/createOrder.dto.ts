@@ -15,6 +15,6 @@ export class OrderCreateDto{
     
         @IsArray()
         @IsNotEmpty()
-        products:Products[]
+        products:Promise<Products>[]
     
 }

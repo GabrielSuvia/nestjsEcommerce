@@ -7,7 +7,7 @@ import { Users } from "src/Users/users.entity";
 import { LogeeMiddleware } from "src/middleware/logge.middleware";
 
 @Module({
-    imports:[TypeOrmModule.forFeature([Users])],
+    imports:[TypeOrmModule.forFeature([Users])],//funcionalidades
     providers:[AuthService],
     controllers:[AuthControllers]
 })

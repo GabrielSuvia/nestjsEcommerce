@@ -22,17 +22,19 @@ export class ProductsDto{
   @IsNotEmpty()
     stock: number
 
+   @IsOptional()
    @IsString()
     imgUrl: string
 
+    @IsOptional()
    @IsString()
    category:string
 
     @IsOptional()
     @IsArray()
-    //@ValidateNested({each: true})
+    //@ValidateNested({each: true}.)
     @Type(()=> Categories)
-    categoryId: Categories[]
+    categoryId: string
    
     @IsOptional()
     @IsArray()
