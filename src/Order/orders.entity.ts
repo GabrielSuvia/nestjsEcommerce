@@ -1,5 +1,5 @@
-import { OrderDetails } from "src/OrderDetaill/orderDetails.entity";
-import { Users } from "src/Users/users.entity";
+import { OrderDetails } from "../OrderDetaill/orderDetails.entity";
+import { Users } from "../Users/users.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 

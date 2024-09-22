@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Type } from 'class-transformer';
 import{IsString, IsNotEmpty, IsEmail, IsArray, ValidateNested, MinLength, MaxLength, Matches, IsPhoneNumber, IsBoolean, IsDate} from 'class-validator';
-import { Orders } from 'src/Order/orders.entity';
+import { Orders } from '../Order/orders.entity';
 
 export class UserCreateDto{
     @IsEmail()

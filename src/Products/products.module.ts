@@ -4,8 +4,8 @@ import { ProductsControllers } from './products.controller';
 import { ProductsRepository } from './products.repository';
 import { Products } from './products.entity';
 import  {TypeOrmModule}  from '@nestjs/typeorm';
-import { Categories } from 'src/Categories/categories.entity';
-import { LogeeMiddleware } from 'src/middleware/logge.middleware';
+import { Categories } from '../Categories/categories.entity';
+import { LogeeMiddleware } from '../middleware/logge.middleware';
 
 @Module({
     imports:[TypeOrmModule.forFeature([Products]),TypeOrmModule.forFeature([Categories])],

@@ -1,6 +1,6 @@
 import {Injectable } from "@nestjs/common";
 import { UserRepository } from "./users.repository";
-import { UserCreateDto } from "src/DTOs/createUser.dto";
+import { UserCreateDto } from "../DTOs/createUser.dto";
 import { Users } from "./users.entity";
 
 @Injectable()
@@ -12,7 +12,7 @@ constructor(private readonly userRepository:UserRepository){}
         return users;
     }
    
-   async getUser(id:string){
+   async getUser(id: string){
     const user = await this.userRepository.getUser(id)
     console.log("Consiguiendo usuarios",user)
     return user;
@@ -35,7 +35,6 @@ constructor(private readonly userRepository:UserRepository){}
 
    async deleteUserService(id:string): Promise<Partial<Users>>{
       const userDelete = await this.userRepository.deleteUserRepository(id);
-      
       return userDelete;
    }
 

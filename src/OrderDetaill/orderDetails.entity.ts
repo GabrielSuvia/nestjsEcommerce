@@ -1,5 +1,5 @@
-import { Orders } from "src/Order/orders.entity";
-import { Products } from "src/Products/products.entity";
+import { Orders } from "../Order/orders.entity";
+import { Products } from "../Products/products.entity";
 import { Column, Entity, JoinColumn, ManyToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
@@ -20,5 +20,5 @@ export class OrderDetails{
 
     @ManyToMany(()=>Products, (products)=> products.orderDetails, {lazy:true})
     @JoinColumn()
-    products: Promise<Products>[]
+    products: Products[]
 }

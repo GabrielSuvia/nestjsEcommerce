@@ -1,25 +1,25 @@
 import { Body, Controller,Delete,Get, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Put, Query, Res, UseGuards} from "@nestjs/common";
 import { UserService } from "./users.service";
-import { response, Response } from "express";
-import { AuthGuard } from "src/Auth/auth.guard";
-import { UserCreateDto } from "src/DTOs/createUser.dto";
-import { Roles } from "src/decorator/roles.decorator";
-import { Role } from "src/decorator/roles.enum";//cambiar todos los src -->a
-import { RolesGuard } from "src/Auth/roles.guard";
+import { Response } from "express";//cambiar todos los src -->a
+//import { AuthGuard } from "Auth/auth.guard";
+//import { Roles } from "decorator/roles.decorator";
+//import { RolesGuard } from "Auth/roles.guard";
+//import { Role } from "decorator/roles.enum";
+import { UserCreateDto } from "../DTOs/createUser.dto";
 
 @Controller('user')
  export class UserControllers{
    constructor(private readonly userService: UserService){}
 
 @Get()
-   //@UseGuards(AuthGuard,RolesGuard)
+ //  @UseGuards(AuthGuard,RolesGuard)
   // @Roles(Role.Admin)//definir guarda de roles, despues del authguard, user/admin ---> Ruta protegida 200
    async getUsers(@Res() res:Response):Promise<Response>{
     try{
       const users = await this.userService.getUsers();
       return res.status(200).json({users})
-
     }catch(error){
+
    throw new HttpException('Failed to get users', HttpStatus.INTERNAL_SERVER_ERROR)
     }
     
@@ -39,7 +39,6 @@ try{ if(page && limit){
   }catch(error){
          throw new HttpException('Failed to get users with pagination', HttpStatus.INTERNAL_SERVER_ERROR)
     };
-    
    }
 
 @Get(':id')
@@ -50,7 +49,8 @@ try {
    const user = await this.userService.getUser(id);
     return res.status(200).json({user})
 } catch (error) {
-   throw new HttpException('User Not Found',HttpStatus.NOT_FOUND)
+  // throw new HttpException('User Not Found',HttpStatus.NOT_FOUND)
+  return res.status(404).json({message:'usuario no encontrado', status:404})
 }
 }
 
@@ -59,7 +59,7 @@ try {
  async updateUser(@Res() res:Response, @Param('id',ParseUUIDPipe) id:string, @Body() UserUpdate:Partial<UserCreateDto>):Promise<Response> {
 try {
       const user = await this.userService.updateUserService(id,UserUpdate);
-       return res.status(200).send(`producto:${user.id} actualizado`)
+       return res.status(200).send({user})
 
 } catch (error) {
   throw new HttpException('Faild to update User',HttpStatus.BAD_REQUEST);
@@ -71,7 +71,7 @@ try {
  async deleteProduct(@Param('id', ParseUUIDPipe) id:string, @Res() res:Response):Promise<Response>{
       try {
         const user = await this.userService.deleteUserService(id);
-        return res.status(200).json(`producto:${user.id} eliminado`)
+        return res.status(200).json({user})
       } catch (error) {
         throw new HttpException('Faild to delete User',HttpStatus.BAD_REQUEST);
       }

@@ -52,6 +52,7 @@ import { CategoriesModule } from './Categories/categories.module';
   TypeOrmModule.forRootAsync({
     inject:[ConfigService],
     useFactory: (configService:ConfigService) =>(configService.get('typeorms'))}), 
+    
     JwtModule.register({
       global:true,
       signOptions:{expiresIn:'1h'},

@@ -1,10 +1,11 @@
-import { Body, Controller,Get, Param, Post, Put, Delete, Res, UseGuards, BadRequestException, HttpException, HttpStatus, Query, ParseUUIDPipe} from "@nestjs/common";
+import { Body, Controller,Get, Param, Post, Put, Delete, Res,
+    UseGuards, BadRequestException, HttpException, HttpStatus, Query, ParseUUIDPipe} from "@nestjs/common";
 import { ProductService } from "./products.service";
 import { Response } from "express";
-import { AuthGuard } from "src/Auth/auth.guard";
-import { ProductsDto } from "src/DTOs/createProduct.dto";
-import { RolesGuard } from "src/Auth/roles.guard";
 import { Products } from "./products.entity";
+import { ProductsDto } from "../DTOs/createProduct.dto";
+//import { RolesGuard } from "Auth/roles.guard";
+//import { AuthGuard } from "Auth/auth.guard";
 
 @Controller('products')
 export class ProductsControllers{
@@ -44,7 +45,6 @@ async getProduct(@Res() res:Response, @Param('id', ParseUUIDPipe) id:string){
         const product = await this.productService.getProductService(id);
         console.log(product)
         return res.status(200).json({message:"product" ,products:product});
-   
     } catch (error) {
         throw new HttpException('Invalid product', HttpStatus.BAD_REQUEST)
     }
@@ -53,12 +53,10 @@ async getProduct(@Res() res:Response, @Param('id', ParseUUIDPipe) id:string){
 
 @Post('seeder')
 //@UseGuards(AuthGuard)
- async createSeederProduct(@Res() res:Response, @Body() newProduct:ProductsDto[]){
+ async createSeederProduct(@Res() res:Response, @Body() newProduct:Partial<ProductsDto[]>){
        try {//lOAD OF DATA
-        console.log("1","product")
 
         const product = await this.productService.createSeederProductService(newProduct);
-        console.log("2","product2")
         
         return res.status(201).json({message:"created products", product:product});
        } catch (error) {
@@ -68,6 +66,19 @@ async getProduct(@Res() res:Response, @Param('id', ParseUUIDPipe) id:string){
        //hacer post??
       
 }
+
+
+@Put(':id')
+//@UseGuards(AuthGuard)
+ async updateProduct(@Param('id', ParseUUIDPipe) id:string,@Body() updateProduct: Partial<Products>, @Res() res:Response){
+     try {
+        const product = await this.productService.updateProductService(id, updateProduct);
+       console.log('PRODUCTOS CONTROLLER',product)
+       return res.status(200).json({message:"Producto actualizado",product: product})
+     } catch (error) {
+        throw new HttpException('Invalid Product', HttpStatus.BAD_REQUEST);
+     }
+ }
 
 @Post('create')
 //@UseGuards(AuthGuard)
@@ -81,18 +92,7 @@ async getProduct(@Res() res:Response, @Param('id', ParseUUIDPipe) id:string){
 }
 
 
-@Put(':id')
-//@UseGuards(AuthGuard)
- async updateProduct(@Param('id', ParseUUIDPipe) id:string,@Body() updateProduct: Partial<Products>, @Res() res:Response){
-     try {
-        const product = await this.productService.updateProductService(id, updateProduct);
-       console.log(product)
-       return res.status(200).json({message:"Producto actualizado",product: product.id})
 
-     } catch (error) {
-        throw new HttpException('Invalid Product', HttpStatus.BAD_REQUEST);
-     }
- }
 
 @Delete(':id')
 //@UseGuards(AuthGuard)

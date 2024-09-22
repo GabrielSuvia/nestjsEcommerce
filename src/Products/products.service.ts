@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ProductsRepository } from "./products.repository";
 import { Products } from "./products.entity";
-import { ProductsDto } from "src/DTOs/createProduct.dto";
+import { ProductsDto } from "../DTOs/createProduct.dto";
 
 @Injectable()
 export class ProductService{
@@ -17,23 +17,24 @@ export class ProductService{
         return product;
     }
     
-    async createSeederProductService(newProduct: ProductsDto[]):Promise<Partial<Products>[]>{
+    async createSeederProductService(newProduct: Partial<ProductsDto[]>):Promise<Partial<Products>[]>{
         const product= await this.productRepository.createSeederRepository(newProduct);
-        console.log("Producto creado");
+        console.log("Producto creado1");
+        return product;
+    }
+
+    async updateProductService(id:string, updateProduct: Partial<Products>):Promise<Products>{//???
+        const product =  await this.productRepository.updateRepository(id, updateProduct)
+        console.log('UPDATE')
         return product;
     }
 
     async createProductService(newProduct: ProductsDto): Promise<string>{
         const productId = await this.productRepository.createRepository(newProduct);
-        console.log("Producto creado");
+        console.log("CREATE");
         return productId;
     }
-    
-    async updateProductService(id:string, updateProduct: Partial<Products>):Promise<Products>{//???
-        const product =  await this.productRepository.updateRepository(id, updateProduct)
-        return product;
-    }
-    
+   
     async deleteProductService(id:string): Promise<Products>{
        const producDelete = await this.productRepository.deleteRepository(id)
         return producDelete;

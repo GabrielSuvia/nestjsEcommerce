@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Observable } from "rxjs";
-import { Role } from "src/decorator/roles.enum";
+//import { Role } from "src/decorator/roles.enum";
     /*
     const authVerification = request.headers['authorization'] ;//verificar con arrgelo o sin arreglo
     

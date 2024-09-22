@@ -3,9 +3,10 @@ import { CategorieService } from "./categories.service";
 import { CategoriesRespository } from "./categories.repository";
 import { CategoriesControllers } from "./categories.controllers";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Products } from "src/Products/products.entity";
 import { Categories } from "./categories.entity";
-import { LogeeMiddleware } from "src/middleware/logge.middleware";
+import { Products } from "../Products/products.entity";
+import { LogeeMiddleware } from "../middleware/logge.middleware";
+
 
 @Module({
     imports:[TypeOrmModule.forFeature([Categories]),TypeOrmModule.forFeature([Products])],

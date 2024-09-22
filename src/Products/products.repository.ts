@@ -3,8 +3,8 @@ import { Iproduct } from "./products.interface";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Products } from "./products.entity";
 import { Repository } from "typeorm";
-import { ProductsDto } from "src/DTOs/createProduct.dto";
-import { Categories } from "src/Categories/categories.entity";
+import { ProductsDto } from "../DTOs/createProduct.dto";
+import { Categories } from "../Categories/categories.entity";
 
 
 @Injectable()
@@ -113,7 +113,7 @@ async getProduct(id:string){
     return productFound;
 }
 
-async createSeederRepository(newProduct:Partial<ProductsDto>[]):Promise<Partial<Products>[]>{
+async createSeederRepository(newProduct:Partial<ProductsDto[]>):Promise<Partial<Products>[]>{
       //LOAD OF DATA
     const categoriesList = await this.categoriesRepositoryDB.find();//4 elementos
          const list = newProduct.map( async (pro) => {
@@ -159,7 +159,13 @@ async updateRepository(id:string, updateProduct: Partial<Products>):Promise<Prod
       if(!idProduct){
           throw new Error("Product not Found");
         };
-        Object.assign(idProduct,updateProduct)
+        //Object.assign(idProduct,updateProduct)
+        if(updateProduct.name){idProduct.name = updateProduct.name}
+        if(updateProduct.description){idProduct.description = updateProduct.description}
+        if(updateProduct.price){idProduct.price = updateProduct.price}
+        if(updateProduct.stock){idProduct.stock = updateProduct.stock}
+        if(updateProduct.imgUrl){idProduct.imgUrl = updateProduct.imgUrl}
+
         await this.productRepositoryDB.save(idProduct)
         console.log("update product",idProduct)
         return idProduct;//????

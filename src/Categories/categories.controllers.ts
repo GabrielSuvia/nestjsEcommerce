@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Post, Res } from "@nestjs/common";
 import { CategorieService } from "./categories.service";
 import { Categories } from "./categories.entity";
-import { Products } from "src/Products/products.entity";
+//import { Products } from "src/Products/products.entity";
 import { Response } from "express";
 
 

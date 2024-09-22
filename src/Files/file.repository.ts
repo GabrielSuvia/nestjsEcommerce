@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Products } from "src/Products/products.entity";
+import { Products } from "../Products/products.entity";
 import { Repository } from "typeorm";
 
 

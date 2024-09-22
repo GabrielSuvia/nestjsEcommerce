@@ -1,8 +1,7 @@
+import { Categories } from "../Categories/categories.entity"
 import { Type } from "class-transformer"
 import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator"
-import { Categories } from "src/Categories/categories.entity"
-import { OrderDetails } from "src/OrderDetaill/orderDetails.entity"
-
+import { OrderDetails } from "../OrderDetaill/orderDetails.entity"
 
 export class ProductsDto{
   

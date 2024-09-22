@@ -1,5 +1,5 @@
 import { IsArray, IsDate, IsNotEmpty, IsObject, IsUUID } from 'class-validator';
-import { Products } from 'src/Products/products.entity';
+import { Products } from '../Products/products.entity';
 
 
 

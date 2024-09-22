@@ -2,7 +2,7 @@ import { Injectable} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Users } from "./users.entity";
 import { Repository } from "typeorm";
-import { UserCreateDto } from "src/DTOs/createUser.dto";
+import { UserCreateDto } from "../DTOs/createUser.dto";
 
 @Injectable()
 export class UserRepository{
@@ -65,12 +65,26 @@ async createUserRepository(User: Partial<UserCreateDto>): Promise<Omit<Users,'pa
 }
 
 async updateUserRepository(id:string, userUpdate:Partial<UserCreateDto>): Promise<Users>{
-      const user = await this.userRepositoryDB.findOneBy({id});
+   
+   const user = await this.userRepositoryDB.findOneBy({id});
+   
       if(!user){
     throw new Error('User Not Found');
       }
-      Object.assign(user, userUpdate);//actualiza las propiedades del usuario
+  
+     // Object.assign(user, userUpdate);//actualiza las propiedades del usuario
+      const {name,email,password,city,phone,country, address} = userUpdate;
+      
+      if(name){user.name=name}
+      if(email){user.email=email}
+      if(password){user.password=password}
+      if(city){user.city=city}
+      if(phone){user.phone=phone}
+      if(country){user.country=country}
+      if(address){user.address=address}
+      console.log('9')
       const userSave = await this.userRepositoryDB.save(user);
+      console.log('10')
       return  userSave;
 }
 

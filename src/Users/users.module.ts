@@ -1,10 +1,10 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { UserService } from "./users.service";
 import { UserControllers } from "./users.controllers";
-import { LogeeMiddleware } from "src/middleware/logge.middleware";
 import { UserRepository } from "./users.repository";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Users } from "./users.entity";
+import { LogeeMiddleware } from "../middleware/logge.middleware";
 
 
 @Module({

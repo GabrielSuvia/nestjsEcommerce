@@ -1,7 +1,7 @@
 import { BadRequestException, Controller, Param, ParseUUIDPipe, Post, UploadedFile, UseGuards, UseInterceptors } from "@nestjs/common";
 import { FilesServices } from "./files.service";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { AuthGuard } from "src/Auth/auth.guard";
+//import { AuthGuard } from "src/Auth/auth.guard";
 
 
 @Controller('Files')

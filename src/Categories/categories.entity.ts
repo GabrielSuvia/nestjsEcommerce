@@ -1,4 +1,4 @@
-import { Products } from "src/Products/products.entity";
+import { Products } from "../Products/products.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 /*id: debe ser un valor único generado automáticamente en formato UUID. No puede ser nulo y actúa como la clave primaria de la entidad.

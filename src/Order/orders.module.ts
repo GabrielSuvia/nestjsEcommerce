@@ -4,10 +4,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Orders } from "./orders.entity";
 import { OrderService } from "./orders.service";
 import { OrderRepository } from "./orders.repository";
-import { Users } from "src/Users/users.entity";
-import { Products } from "src/Products/products.entity";
-import { OrderDetails } from "src/OrderDetaill/orderDetails.entity";
-import { LogeeMiddleware } from "src/middleware/logge.middleware";
+import { LogeeMiddleware } from "../middleware/logge.middleware";
+import { OrderDetails } from "../OrderDetaill/orderDetails.entity";
+import { Products } from "../Products/products.entity";
+import { Users } from "../Users/users.entity";
 
 @Module({
 imports:[TypeOrmModule.forFeature([Orders]), TypeOrmModule.forFeature([Users]),TypeOrmModule.forFeature([Products]),
