@@ -43,6 +43,9 @@ it('Should add one order in successfull', async()=>{
    const listOfProduct = ['1']
      const order = await orderService.addOrderService(idUser, listOfProduct)
      expect(order).toBeInstanceOf(Object)
+     expect(order).toHaveProperty('id')
+     expect(order).not.toBeUndefined()
+     expect(order).toEqual({user_id:'1',date:'10/03/2024', id:'1', OrderDetails:{id:'1',price:12, order_id:'1',product:['1']}})
 })
 
 })

@@ -19,7 +19,7 @@ async getProductBasic( @Res() res:Response, @Query('page') page?:string, @Query(
                         const products = await this.productService.basicProductService(1,5);
                         return res.status(200).send({message:"productos",productos:products})
                    }else{
-                        const products = this.productService.basicProductService(Number(page),Number(limit));
+                        const products = await this.productService.basicProductService(Number(page),Number(limit));
                         return res.status(200).json({message:"productos",productos:products})
                    }
         } catch (error) {
@@ -35,7 +35,6 @@ async getProducts(@Res() res:Response){
     } catch (error) {
         throw new HttpException('Server Error', HttpStatus.BAD_GATEWAY)
     }
-   
 }
 
 @Get(':id')
@@ -83,9 +82,10 @@ async getProduct(@Res() res:Response, @Param('id', ParseUUIDPipe) id:string){
 @Post('create')
 //@UseGuards(AuthGuard)
  async createProduct(@Res() res:Response, @Body() newProduct:ProductsDto){
-       try {//lOAD OF DATA
-        const productId = await this.productService.createProductService(newProduct);
-        return res.status(201).json({message:"created product", product:productId});
+       try {//lOAD OF DATAS
+        const products = await this.productService.createProductService(newProduct);
+        console.log('CONTROLLERPOST',products)
+        return res.status(201).json({message:"created product", product:products});
        } catch (error) {
         throw new HttpException('Product havent been created', HttpStatus.BAD_REQUEST)
        }     
@@ -100,7 +100,7 @@ async getProduct(@Res() res:Response, @Param('id', ParseUUIDPipe) id:string){
         try {
         const product = await this.productService.deleteProductService(id);
         console.log("producto eliminado",product)
-        res.status(200).send({message:"producto eliminado",proucts:product.id})
+        res.status(200).send({message:"producto eliminado",products:product})
         } catch (error) {
          throw new HttpException('Invalid Product', HttpStatus.BAD_REQUEST)
         }

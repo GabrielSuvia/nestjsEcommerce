@@ -29,9 +29,9 @@ export class ProductService{
         return product;
     }
 
-    async createProductService(newProduct: ProductsDto): Promise<string>{
+    async createProductService(newProduct: ProductsDto): Promise<Partial<Products>>{
         const productId = await this.productRepository.createRepository(newProduct);
-        console.log("CREATE");
+        console.log("PRODUCTSERVICE",productId);
         return productId;
     }
    
@@ -42,6 +42,7 @@ export class ProductService{
 
     async basicProductService(page:number, limit:number): Promise<Products[]>{
         const products =  await this.productRepository.basicProductRepository(page,limit)
+        console.log('Service',products)
         return products;
 }
 }

@@ -116,42 +116,43 @@ async getProduct(id:string){
 async createSeederRepository(newProduct:Partial<ProductsDto[]>):Promise<Partial<Products>[]>{
       //LOAD OF DATA
     const categoriesList = await this.categoriesRepositoryDB.find();//4 elementos
-         const list = newProduct.map( async (pro) => {
-            
+         const list = await Promise.all( newProduct.map( async (pro) => {
+       
             for (const cat1 of categoriesList) {
-              console.log(cat1,"===", pro.category)
-              if (cat1.name === pro.category ) {
+              console.log(cat1,"===.", pro.category)
+            const product = await pro.category
+              if (cat1.name === product ) {
+          
              const {category, ...res} =pro 
-
-              const prodNew = await this.productRepositoryDB.create(res);    
-              pro.categoryId = cat1.id;
+             console.log("REPOSITORY1")
+              const prodNew = await this.productRepositoryDB.create(res); 
+              console.log("REPOSITORY2", prodNew)
+              pro.categoryId = cat1.id;//
               const prodId = await this.productRepositoryDB.save(prodNew);
-              console.log("product saved")
+              console.log("REPOSITOsRY3", prodId)
              
               
-              cat1.products = cat1.products || [];
-              cat1.products.push(prodId)
-              await this.categoriesRepositoryDB.save(cat1)
-              console.log("cat updated")
-
+          //    cat1.products = cat1.products || [];
+            //  cat1.products.push(prodId)
+            //  await this.categoriesRepositoryDB.save(cat1)
+             // console.log("cat updated")
+              
               }
+             
             }
-           return pro
-          });
-
-   return Promise.all(list);//returna un promise all cuando es un array
+            return pro
+          }));
+         
+console.log("REPOSITORY RETURN",list)
+   return list;//returna un promise all cuando es un array
 }
 
-async createRepository(productNew:ProductsDto): Promise<string>{
+async createRepository(productNew:ProductsDto): Promise<Partial<Products>>{
     const newProduct = await this.productRepositoryDB.create(productNew);
-
-    const productExist = await this.productRepositoryDB.findOneBy({name: newProduct.name});
-     
-   if(!productExist){
-      await this.productRepositoryDB.save(newProduct)
-      return newProduct.id;
-      }
-      throw new Error('Name already exist');
+      const prod =  await this.productRepositoryDB.save(newProduct)
+      return prod;
+   
+   
 }
 
 async updateRepository(id:string, updateProduct: Partial<Products>):Promise<Products>{//revision
@@ -187,6 +188,7 @@ async basicProductRepository(page:number, limit:number): Promise<Products[]>{
     const end = start+limit;
     const arrProd = await this.productRepositoryDB.find();
     const products = arrProd.slice(start,end);
+    console.log('REPOSITORY',products)
     return products;
 }
 
