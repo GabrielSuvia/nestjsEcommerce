@@ -48,23 +48,24 @@ async authSignin(email:string, Password:string): Promise<any | null>{
       }
     
 async signupService(user: Partial<UserCreateDto>){
-          
+   console.log('Service1')
             const passwordCompare = user.password === user.confirPassword?true : false;
-
+            console.log('Service2')
              if(!passwordCompare){
                 throw new BadRequestException('email or password  incorrect');
              };
-
+             console.log('Service3')
              const bcryptHashedPassword = await bcrypt.hash(user.password,2);
              if(!bcryptHashedPassword){
 
                 throw new BadRequestException('the password is not hashed')
              };
+             console.log('Service4')
              const {confirPassword,...newUse} = user
                 const newUser = await this.userRepository.create({...newUse,password:bcryptHashedPassword})//orden
              
              const  NewUser = await this.userRepository.save(newUser);
-             
+             console.log('Service5')
           //   console.log(NewUser)
              return NewUser;
     }

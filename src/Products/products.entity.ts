@@ -1,6 +1,6 @@
 import { Categories } from "../Categories/categories.entity";
 import { OrderDetails } from "../OrderDetaill/orderDetails.entity";
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
     name:"products"
@@ -36,8 +36,9 @@ export class Products{
     imgUrl: string
 
     @ManyToOne(()=>Categories,(categories)=>categories.products)
-    categoryId: string
+    categoryid: Categories
 
-   @ManyToMany(()=>OrderDetails,(orderDetail)=>orderDetail.products)
+   @ManyToMany(()=>OrderDetails)
+   @JoinColumn()
      orderDetails: OrderDetails[]
 }

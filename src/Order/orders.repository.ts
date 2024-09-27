@@ -15,18 +15,29 @@ export class OrderRepository{
 @InjectRepository(OrderDetails) private orderDetailsRespositoryDB: Repository<OrderDetails>
 ){}
 
-   async getOrderRepository(id:string){
-            const order = await this.orderRepositoryDB.findOne({where:{id:id}, relations:['orderDetail']})//devolver con detail y el areglo de producto
+   async getOrdersRepository(): Promise<Partial<Orders[]>>{
+      const orders = await this.orderRepositoryDB.find()
+      return orders;
+   }
+
+   async getOrderRepository(id:string):Promise<Partial<Orders>>{
+       console.log('Repository1')
+       const orders = await this.orderRepositoryDB.find();
+       console.log('Repository2',orders)
+       const order = await this.orderRepositoryDB.findOne({where:{id:id}})//devolver con detail y el areglo de producto
+        console.log('Repository3',order)
             if(!order){
                 throw new Error("Order not Found");
             }
             return order;
     }
 
-   async addOrderRepository(userId: string, products:string[]){
+   async addOrderRepository(userId: string, products:string[]):Promise<Orders>{
     //Busca a un usuario por id.
           const User = await this.userRepositoryDB.findOne({where: {id:userId}, relations:['orderId']})
-
+        if(!User){
+          throw new Error('invalid user')
+        }
           //Crea un registro en la tabla orders con el usuario encontrado.
           let priceTotal = 0;
           const Productos = products.map(async (prodId)=>{//productos existentes
@@ -40,7 +51,12 @@ export class OrderRepository{
               return product;
              };
             });
+
+        if(Productos.length === 0){
+              throw new Error('invalid product')
+        }
             const resolveProduct =await Promise.all( Productos.map(async (prod)=> await prod)) 
+      
             console.log("Products ready:",Productos)
 
               const createOrder = {user_Id:User ,date: new Date()};
@@ -50,14 +66,16 @@ export class OrderRepository{
               console.log("orderRepository1", Productos,"number: ", priceTotal, orderr)
           //npo hay order
 
-          let createOrderDetail = {price: Math.floor(priceTotal) ,order_id: orderr , products:resolveProduct}
-          console.log("ORDERDETAIL CREADO",createOrderDetail)
+          let createOrderDetail = {price: Math.floor(priceTotal), products:resolveProduct}
+          console.log("ORDERDETAIL CREADO",createOrderDetail)//here
 
-          const newOrderDetail: OrderDetails = await this.orderDetailsRespositoryDB.create(createOrderDetail);
-          await this.orderDetailsRespositoryDB.save(newOrderDetail);
-           console.log("SAVING NEWORDERDETAIL...", newOrderDetail)
+        const newOrderDetail: OrderDetails = await this.orderDetailsRespositoryDB.create(createOrderDetail)
+        console.log("newOrderDetail",newOrderDetail)
+
+          const nuevaOrder = await this.orderDetailsRespositoryDB.save(newOrderDetail)
+           console.log("SAVING NEWORDERDETAIL...", nuevaOrder)
           
-          newOrder.OrderDetails = newOrderDetail;
+          newOrder.orderDetails = nuevaOrder;
          const Order = await this.orderRepositoryDB.save(newOrder);
           console.log("UPDATE NEWORDER...", newOrder)
 
@@ -66,6 +84,7 @@ export class OrderRepository{
           console.log("repository",Order)
 
                 //return {id:newOrderDetail.id,price:newOrderDetail.price, ...Order};
+           
                 return Order
                 
             }

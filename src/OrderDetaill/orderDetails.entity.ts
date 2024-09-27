@@ -3,7 +3,7 @@ import { Products } from "../Products/products.entity";
 import { Column, Entity, JoinColumn, ManyToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
-    name:'orderDetails'
+    name:'orderdetails'
 })
 
 export class OrderDetails{
@@ -15,10 +15,4 @@ export class OrderDetails{
     })
     price:number
 
-    @OneToOne(()=>Orders,(order)=>order.OrderDetails )
-    order_id: Orders
-
-    @ManyToMany(()=>Products, (products)=> products.orderDetails, {lazy:true})
-    @JoinColumn()
-    products: Products[]
 }

@@ -8,7 +8,9 @@ export class ProductService{
     constructor(private productRepository: ProductsRepository){}
 
     async getProductsService():Promise<Products[]>{
+        console.log('service1')
         const products = await this.productRepository.getProducts();
+        console.log('service2')
         return products;
     }
     
@@ -17,7 +19,7 @@ export class ProductService{
         return product;
     }
     
-    async createSeederProductService(newProduct: Partial<ProductsDto[]>):Promise<Partial<Products>[]>{
+    async createSeederProductService(newProduct: Partial<ProductsDto>[]):Promise<Partial<Products>[]>{
         const product= await this.productRepository.createSeederRepository(newProduct);
         console.log("Producto creado1");
         return product;

@@ -30,7 +30,9 @@ async getProductBasic( @Res() res:Response, @Query('page') page?:string, @Query(
 @Get()
 async getProducts(@Res() res:Response){
     try {
+        console.log('contrller1')
         const products = await this.productService.getProductsService();
+        console.log('contrller2')
         return res.status(200).json({message:"productos existentes", products:products});
     } catch (error) {
         throw new HttpException('Server Error', HttpStatus.BAD_GATEWAY)
@@ -52,7 +54,7 @@ async getProduct(@Res() res:Response, @Param('id', ParseUUIDPipe) id:string){
 
 @Post('seeder')
 //@UseGuards(AuthGuard)
- async createSeederProduct(@Res() res:Response, @Body() newProduct:Partial<ProductsDto[]>){
+ async createSeederProduct(@Res() res:Response, @Body() newProduct:Partial<ProductsDto>[]){
        try {//lOAD OF DATA
 
         const product = await this.productService.createSeederProductService(newProduct);

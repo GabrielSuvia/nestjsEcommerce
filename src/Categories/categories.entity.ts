@@ -22,6 +22,6 @@ export class Categories{
     })
     name:string//mouse
 
-    @OneToMany(()=>Products, (product)=> product.categoryId)
+    @OneToMany(()=>Products, (product)=> product.categoryid)
     products: Products[]
 }

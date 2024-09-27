@@ -2,6 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing"
 import { ProductsRepository } from "../Products/products.repository"
 import { ProductService } from "../Products/products.service"
 import { ProductsDto } from "DTOs/createProduct.dto"
+import { Categories } from "Categories/categories.entity"
 
 
 describe('',()=>{
@@ -16,23 +17,23 @@ let productRepository:Partial<ProductsRepository>;
         productRepository = {
             getProduct: jest.fn().mockResolvedValue({...mockProduct,id:'fa4a',imgUrl: "prod.com",
                 category: "celular",
-                categoryId: "1",
+                categoryid: new Categories,
                 orderDetails: []}),
             getProducts: jest.fn().mockResolvedValue([{...mockProduct,id:'fa4a',imgUrl: "prod.com",
                 category: "celular",
-                categoryId: "1",
+                categoryid: new Categories,
                 orderDetails: []}]),
             createSeederRepository: jest.fn().mockResolvedValue([{...mockProduct,id:'fa4a',imgUrl: "prod.com",
                 category: "celular",
-                categoryId: "1",
+                categoryid: new Categories,
                 orderDetails: []}]),
             createRepository: jest.fn().mockResolvedValue({...mockProduct,imgUrl: "prod.com",id:'fa4a',
                 category: "celular",
-                categoryId: "1",
+                categoryid: new Categories,
                 orderDetails: []}),
             updateRepository:jest.fn().mockResolvedValue({...mockProduct,id:'fa4a',imgUrl: "update.com",
                 category: "celular",
-                categoryId: "12",
+                categoryid: new Categories,
                 orderDetails: []}),
             deleteRepository: jest.fn().mockResolvedValue({affected:1})
         }
@@ -60,7 +61,7 @@ let productRepository:Partial<ProductsRepository>;
      expect(productList.length).toBeGreaterThan(0)
      expect(productList).toEqual([{...mockProduct,id:'fa4a',imgUrl: "prod.com",
         category: "celular",
-        categoryId: "1",
+        categoryid: new Categories,
         orderDetails: []}])
      expect(productList).not.toBeNull()
 
@@ -72,7 +73,7 @@ let productRepository:Partial<ProductsRepository>;
          expect(product).toBeInstanceOf(Object)
          expect(product).toEqual({...mockProduct,id:'fa4a',imgUrl: "prod.com",
             category: "celular",
-            categoryId: "1",
+            categoryid: new Categories,
             orderDetails: []})
          expect(product).not.toBeNull()
          expect(product).toHaveProperty('id')
@@ -82,9 +83,9 @@ let productRepository:Partial<ProductsRepository>;
     it('seederProduct for up the list of product',async()=>{//Dto me oblig a usar todo
       const seederProduct = await productService.createSeederProductService([{
           ...mockProduct,
-          imgUrl: "prod.com",
-          category: "celular",
-          categoryId: "1",
+          imgUrl: "",
+          category: "",
+          categoryid: new Categories,
           orderDetails: []
       }])
       expect(seederProduct).toBeInstanceOf(Array)
@@ -92,7 +93,7 @@ let productRepository:Partial<ProductsRepository>;
       expect(seederProduct).toEqual([{ ...mockProduct,
         imgUrl: "prod.com",
         category: "celular",
-        categoryId: "1",
+        categoryid: new Categories,
         id:'fa4a',
         orderDetails: []}])
       expect(seederProduct).not.toBeUndefined()
@@ -102,9 +103,9 @@ let productRepository:Partial<ProductsRepository>;
     it('CREATE a product', async()=>{
      const product = await productService.createProductService({
          ...mockProduct,
-         imgUrl: "prod.com",
-         category: "celular",
-         categoryId: "1",
+         imgUrl: "",
+         category: "",
+         categoryid: new Categories,
          orderDetails: []
      })
      expect(product).toBeInstanceOf(Object)
@@ -112,7 +113,7 @@ let productRepository:Partial<ProductsRepository>;
      expect(product).toEqual({...mockProduct,id:'fa4a',
         imgUrl: "prod.com",
         category: "celular",
-        categoryId: "1",
+        categoryid: new Categories,
         orderDetails: []})
     expect(product).not.toBeUndefined()
     })
@@ -122,13 +123,13 @@ let productRepository:Partial<ProductsRepository>;
         const productUpdate = {
             imgUrl: "update.com",
             category: "celular",
-            categoryId: "12"}
+            categoryid: new Categories,}
       const productGet= await productService.updateProductService(id,productUpdate)
       expect(productGet).toBeInstanceOf(Object)
       expect(productGet).toEqual({...mockProduct,id:'fa4a',
         imgUrl: "update.com",
         category: "celular",
-        categoryId: "12",
+        categoryid: new Categories,
         orderDetails: []})
       expect(productGet).not.toBeUndefined()
 

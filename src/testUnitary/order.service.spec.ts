@@ -1,7 +1,6 @@
 import { OrderRepository } from "../Order/orders.repository"
 import { OrderService } from "../Order/orders.service"
 import { Test, TestingModule } from "@nestjs/testing"
-import { OrderDetails } from "../OrderDetaill/orderDetails.entity"
 
 
 
@@ -37,7 +36,7 @@ it('Should get one order with id in successfully',async ()=>{
    expect(order).not.toBeUndefined()
    expect(order).toHaveProperty('id')
 })
-
+//a la espera
 it('Should add one order in successfull', async()=>{
    const idUser = '1'
    const listOfProduct = ['1']

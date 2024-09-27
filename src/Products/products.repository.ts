@@ -99,9 +99,11 @@ private products = [ {
 ]
 
 async getProducts(){
+  console.log('repository1')
     const products = await this.productRepositoryDB.find({
-      relations:['categoryId']
+     // relations:['categoryId']
     });
+    console.log('products2',products)
     return products;
 }
 
@@ -113,28 +115,29 @@ async getProduct(id:string){
     return productFound;
 }
 
-async createSeederRepository(newProduct:Partial<ProductsDto[]>):Promise<Partial<Products>[]>{
+async createSeederRepository(newProduct:Partial<ProductsDto>[]):Promise<Partial<Products>[]>{
       //LOAD OF DATA
     const categoriesList = await this.categoriesRepositoryDB.find();//4 elementos
-         const list = await Promise.all( newProduct.map( async (pro) => {
+
+         const list = await Promise.all( newProduct.map( async (pro,i) => {
        
             for (const cat1 of categoriesList) {
               console.log(cat1,"===.", pro.category)
-            const product = await pro.category
+            const product = pro.category
               if (cat1.name === product ) {
           
              const {category, ...res} =pro 
              console.log("REPOSITORY1")
               const prodNew = await this.productRepositoryDB.create(res); 
               console.log("REPOSITORY2", prodNew)
-              pro.categoryId = cat1.id;//
+              pro.categoryid = cat1;//
               const prodId = await this.productRepositoryDB.save(prodNew);
               console.log("REPOSITOsRY3", prodId)
              
               
-          //    cat1.products = cat1.products || [];
-            //  cat1.products.push(prodId)
-            //  await this.categoriesRepositoryDB.save(cat1)
+              cat1.products = cat1.products || [];
+              cat1.products.push(prodId)
+              await this.categoriesRepositoryDB.save(cat1)
              // console.log("cat updated")
               
               }

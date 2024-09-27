@@ -27,9 +27,9 @@ export class CategoriesControllers{
     price:number, stock:number, category:string}[] ){
           try {
             console.log("entradas")
-            const categoriasNew: Categories[] = await this.categoriesService.addCategorieService(products);
-            console.log('controllers2',products)
-             return res.status(200).send({message:'received data', dato:categoriasNew})
+            const categoriasNew = await this.categoriesService.addCategorieService(products);
+            console.log('controllers2',categoriasNew)
+             return res.status(201).send({message:'received data', dato:categoriasNew})
          }catch (error) {
           throw new HttpException('Invalid Category', HttpStatus.BAD_REQUEST)
         }

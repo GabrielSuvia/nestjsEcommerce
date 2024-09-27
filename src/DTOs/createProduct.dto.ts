@@ -25,15 +25,16 @@ export class ProductsDto{
    @IsString()
     imgUrl: string
 
-    @IsOptional()
+  
    @IsString()
+   @IsOptional()
    category:string
 
     @IsOptional()
     @IsArray()
     //@ValidateNested({each: true}.)
     @Type(()=> Categories)
-    categoryId: string
+    categoryid: Categories
    
     @IsOptional()
     @IsArray()

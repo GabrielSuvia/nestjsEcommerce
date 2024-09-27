@@ -16,7 +16,7 @@ export class Orders{
     @Column()
     date:Date
 
-    @OneToOne(()=>OrderDetails,(orderDetails)=> orderDetails.order_id)
+    @OneToOne(()=>OrderDetails)
     @JoinColumn()
-    OrderDetails:OrderDetails
+    orderDetails:OrderDetails
 }

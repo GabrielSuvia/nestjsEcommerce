@@ -5,8 +5,16 @@ import { Orders } from "./orders.entity";
 @Injectable()
 export class OrderService{
 constructor(private readonly orderRepository:OrderRepository){}
-   async getOrderService(id:string) :Promise<Orders>{
+    
+   async getOrdersService(): Promise<Partial<Orders[]>>{
+       const orders = await this.orderRepository.getOrdersRepository();
+    return orders
+   }
+
+   async getOrderService(id:string): Promise<Partial<Orders>>{
+    console.log('Service1')
           const order = await this.orderRepository.getOrderRepository(id)
+          console.log('Service2',order)
           return order;
     }
 

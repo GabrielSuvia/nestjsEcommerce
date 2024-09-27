@@ -7,11 +7,24 @@ import { Response } from "express";
 export class OrderController{
     constructor(private readonly orderService:OrderService){}
 
+    @Get()
+    async getOrderController(@Res() res:Response){
+            console.log('Controller1')
+        try {
+            const order = await this.orderService.getOrdersService()
+            return res.status(200).json({order})
+        } catch (error) {
+            throw new HttpException('Error server', HttpStatus.BAD_GATEWAY)
+        }
+    }
     @Get(':id')
     //@UseGuards(AuthGuard)
     async getOrderControllers(@Res() res:Response, @Param('id') id:string){
+        console.log('Controller1')
 try {
+    console.log('Controller2')
     const order = await this.orderService.getOrderService(id);
+    console.log('Controller3')
     return res.status(200).json({order:order});
 } catch (error) {
     throw new HttpException('invalid Order', HttpStatus.BAD_REQUEST)

@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing"
 import { UserRepository } from "../Users/users.repository"
 import { UserService } from "../Users/users.service"
 
-describe('Create an instance of User', ()=>{
+describe('Create an instance of UserService', ()=>{
   const user={ email:"jose123@hotmail.com",name: "jose", confirPassword:"Josue321" ,password: "Josue321",address: "Avenida nueva vida",
         phone:7897689, country:"bolivia", city:"santa cruz"}
 
