@@ -101,7 +101,7 @@ private products = [ {
 async getProducts(){
   console.log('repository1')
     const products = await this.productRepositoryDB.find({
-     // relations:['categoryId']
+      relations:['categoryId']
     });
     console.log('products2',products)
     return products;

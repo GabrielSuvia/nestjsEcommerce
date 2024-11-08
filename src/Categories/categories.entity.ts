@@ -18,7 +18,7 @@ export class Categories{
     id:string
 
     @Column({
-        type:'varchar', length:50, nullable:false, unique:true
+        type:'varchar', length:50, nullable:false, unique:true, default:"name"
     })
     name:string//mouse
 

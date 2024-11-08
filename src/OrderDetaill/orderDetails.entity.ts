@@ -11,7 +11,7 @@ export class OrderDetails{
     id:string
 
     @Column({
-    nullable:false
+    nullable:false, default:0
     })
     price:number
 

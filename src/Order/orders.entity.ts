@@ -13,7 +13,7 @@ export class Orders{
     @ManyToOne(()=> Users,(user)=>user.orderId)
     user_id:Users
 
-    @Column()
+    @Column({default: ()=> 'CURRENT_TIMESTAMP'})
     date:Date
 
     @OneToOne(()=>OrderDetails)

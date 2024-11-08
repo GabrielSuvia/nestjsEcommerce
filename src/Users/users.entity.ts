@@ -9,35 +9,35 @@ export class Users{
     id: string
 
     @Column({
-        type:'varchar', length:50, unique:true, nullable:false
+        type:'varchar', length:50, unique:true, nullable:false, default:'email'
     })
     email: string
 
     @Column({
-        type:'varchar', length:50, unique:true,nullable:false
+        type:'varchar', length:50, unique:true,nullable:false, default:'name'
     })
     name: string
 
     @Column({
-        type:'varchar' , length:80, nullable:false
+        type:'varchar' , length:80, nullable:false, default:'password'
     })
     password: string
 
     @Column({
-        type:'varchar'
+        type:'varchar', default:'address'
     })
     address: string
 
-    @Column()
+    @Column({default:0})
     phone: number
 
     @Column({
-        type:'varchar',length:50
+        type:'varchar',length:50, default:'country'
     })
     country: string
 
     @Column({
-        type:'varchar' ,length:50
+        type:'varchar' ,length:50, default:'city'
     })
     city:string
     
