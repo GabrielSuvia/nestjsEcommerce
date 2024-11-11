@@ -25,6 +25,11 @@ async getAllAuthControllers(@Res() res:Response){
 async authUserLogin(@Res() res:Response, @Body() userLogin:CreateLoginDto  ){
 try {
   const userLog = await this.authService.authSignin(userLogin.email, userLogin.password);
+  res.cookie('token', userLog, {
+    httpOnly: true,
+    sameSite: 'strict',
+    maxAge: 3600000,
+  });
   if(userLog){
     console.log(userLogin)
     return res.status(200).json({ message: 'User Logged in successfully', user: userLog }); //No devuelve el usuario
