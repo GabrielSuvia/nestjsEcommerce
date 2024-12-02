@@ -100,10 +100,8 @@ private products = [ {
 
 async getProducts(){
   console.log('repository1')
-    const products = await this.productRepositoryDB.find({
-      relations:['categoryId']
-    });
-    console.log('products2',products)
+    const products = await this.productRepositoryDB.find({relations:['categoryid']});
+    console.log('products2')
     return products;
 }
 
@@ -115,39 +113,30 @@ async getProduct(id:string){
     return productFound;
 }
 
-async createSeederRepository(newProduct:Partial<ProductsDto>[]):Promise<Partial<Products>[]>{
+async createSeederRepository(newProduct:Partial<ProductsDto>[]):Promise<void>{
       //LOAD OF DATA
     const categoriesList = await this.categoriesRepositoryDB.find();//4 elementos
+    const listProducts = await this.productRepositoryDB.find();
 
-         const list = await Promise.all( newProduct.map( async (pro,i) => {
-       
+         if(listProducts.length<=0){
+          newProduct.forEach( async (pro) => {
+          //verify each element if it exists into database
             for (const cat1 of categoriesList) {
-              console.log(cat1,"===.", pro.category)
             const product = pro.category
               if (cat1.name === product ) {
-          
+             //adding product element
              const {category, ...res} =pro 
-             console.log("REPOSITORY1")
               const prodNew = await this.productRepositoryDB.create(res); 
-              console.log("REPOSITORY2", prodNew)
-              pro.categoryid = cat1;//
+              pro.categoryid = cat1;
               const prodId = await this.productRepositoryDB.save(prodNew);
-              console.log("REPOSITOsRY3", prodId)
-             
-              
+            
+             //adding category if it does not exist
               cat1.products = cat1.products || [];
               cat1.products.push(prodId)
               await this.categoriesRepositoryDB.save(cat1)
-             // console.log("cat updated")
               
-              }
-             
-            }
-            return pro
-          }));
-         
-console.log("REPOSITORY RETURN",list)
-   return list;//returna un promise all cuando es un array
+              }}});
+        };
 }
 
 async createRepository(productNew:ProductsDto): Promise<Partial<Products>>{
