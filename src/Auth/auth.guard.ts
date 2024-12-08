@@ -26,18 +26,20 @@ constructor(private readonly jwtService: JwtService){}//with the token generated
 canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
      
     const request = context.switchToHttp().getRequest();
-    const token = request.headers['authorization']?.split(' ')[1]?? '';//catch element 1---0,1
-
+    const token = request.headers['authorization']?.split(" ")[1]?? '';//catch element 1---0,1
+     console.log(token)
       if(!token){
           throw new UnauthorizedException('Bearer token not found')
       };
-
       try {
-        const secret='UnaClaveSecreta';
+     
+        const secret=process.env.KEY_JWT;
+        console.log(secret,"secret")
         const payLoad = this.jwtService.verify(token,{secret});
+        console.log(payLoad,"PAYLOAD")
         payLoad.iat = new Date(payLoad.iat * 1000);
         payLoad.exp = new Date(payLoad.exp * 1000);
-        request.user = payLoad;
+        request.user = payLoad;//add user
         return true;
       } catch (error) {
         throw new UnauthorizedException('Invalid token');

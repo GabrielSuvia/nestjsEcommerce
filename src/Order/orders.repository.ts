@@ -63,25 +63,25 @@ export class OrderRepository{
               const newOrder = await this.orderRepositoryDB.create(createOrder);
               const orderr = await this.orderRepositoryDB.save(newOrder);
               
-              console.log("orderRepository1", Productos,"number: ", priceTotal, orderr)
+              console.log("1:", Productos,"number: ", priceTotal, orderr)
           //npo hay order
 
           let createOrderDetail = {price: Math.floor(priceTotal), products:resolveProduct}
-          console.log("ORDERDETAIL CREADO",createOrderDetail)//here
+          console.log("2:",createOrderDetail)//here
 
         const newOrderDetail: OrderDetails = await this.orderDetailsRespositoryDB.create(createOrderDetail)
-        console.log("newOrderDetail",newOrderDetail)
+        console.log("3:",newOrderDetail)
 
           const nuevaOrder = await this.orderDetailsRespositoryDB.save(newOrderDetail)
-           console.log("SAVING NEWORDERDETAIL...", nuevaOrder)
+           console.log("4:", nuevaOrder)
           
           newOrder.orderDetails = nuevaOrder;
          const Order = await this.orderRepositoryDB.save(newOrder);
-          console.log("UPDATE NEWORDER...", newOrder)
+          console.log("5:", newOrder)
 
             User.orderId.push(newOrder);
           await this.userRepositoryDB.save(User);
-          console.log("repository",Order)
+          console.log("6:",Order)
 
                 //return {id:newOrderDetail.id,price:newOrderDetail.price, ...Order};
            

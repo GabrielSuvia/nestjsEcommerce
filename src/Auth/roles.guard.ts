@@ -18,8 +18,9 @@ export class RolesGuard implements CanActivate{
 
         const request = context.switchToHttp().getRequest();
         const user = request.user;
+        console.log(request,"supuesto token")
         const hasRole =  ()=>{
-            requiredRoles.some((role) => user?.roles?.include(role));}
+            requiredRoles.some((role) => user?.roles?.include(role));}//user valided with authguard
 
             const valid =()=> user && user.roles && hasRole();
 

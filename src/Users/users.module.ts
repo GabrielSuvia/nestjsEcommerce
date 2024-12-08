@@ -16,5 +16,5 @@ export class UserModule implements NestModule{
     configure(consumer: MiddlewareConsumer) {
         consumer.apply(LogeeMiddleware).forRoutes('user')
     }
-    
+
 }

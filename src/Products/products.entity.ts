@@ -37,8 +37,4 @@ export class Products{
 
     @ManyToOne(()=>Categories,(categories)=>categories.products)
     categoryid: Categories
-
-   @ManyToMany(()=>OrderDetails)
-   @JoinColumn()
-     orderDetails: OrderDetails[]
 }

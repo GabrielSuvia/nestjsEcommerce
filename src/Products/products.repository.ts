@@ -144,7 +144,6 @@ async createRepository(productNew:ProductsDto): Promise<Partial<Products>>{
       const prod =  await this.productRepositoryDB.save(newProduct)
       return prod;
    
-   
 }
 
 async updateRepository(id:string, updateProduct: Partial<Products>):Promise<Products>{//revision
@@ -152,16 +151,12 @@ async updateRepository(id:string, updateProduct: Partial<Products>):Promise<Prod
       if(!idProduct){
           throw new Error("Product not Found");
         };
-        //Object.assign(idProduct,updateProduct)
-        if(updateProduct.name){idProduct.name = updateProduct.name}
-        if(updateProduct.description){idProduct.description = updateProduct.description}
-        if(updateProduct.price){idProduct.price = updateProduct.price}
-        if(updateProduct.stock){idProduct.stock = updateProduct.stock}
-        if(updateProduct.imgUrl){idProduct.imgUrl = updateProduct.imgUrl}
-
-        await this.productRepositoryDB.save(idProduct)
-        console.log("update product",idProduct)
-        return idProduct;//????
+        await this.productRepositoryDB.update(id,updateProduct)
+        const updateProducts = await this.productRepositoryDB.findOneBy({id})
+        if(!updateProducts){
+           throw new Error("failed to fetch update product")
+        }
+        return updateProducts;
     }
 
 async deleteRepository(id:string): Promise<Products>{

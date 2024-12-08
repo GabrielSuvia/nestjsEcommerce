@@ -1,7 +1,7 @@
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { CategoriesRespository } from "./categories.repository";
 import { Categories } from "./categories.entity";
-import { product } from "helpers/products";
+import { product } from "seeders/products";
 
 @Injectable()
 export class CategorieService implements OnModuleInit {
@@ -10,8 +10,7 @@ export class CategorieService implements OnModuleInit {
  async onModuleInit() {
   try {
       await this.categoriesRepository.addCategories(product);
-      console.log("Initialize Product Lists")
-   
+      console.log("Initialize categories list")
   } catch (error) {
     console.error('Error initializing categories:', error.message);
   }}

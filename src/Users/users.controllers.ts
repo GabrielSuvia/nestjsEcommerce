@@ -1,9 +1,9 @@
 import { Body, Controller,Delete,Get, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Put, Query, Res, UseGuards} from "@nestjs/common";
 import { UserService } from "./users.service";
 import { Response } from "express";//cambiar todos los src -->a
-//import { AuthGuard } from "Auth/auth.guard";
+import { AuthGuard } from "Auth/auth.guard";
 //import { Roles } from "decorator/roles.decorator";
-//import { RolesGuard } from "Auth/roles.guard";
+import { RolesGuard } from "Auth/roles.guard";
 //import { Role } from "decorator/roles.enum";
 import { UserCreateDto } from "../DTOs/createUser.dto";
 
@@ -12,8 +12,8 @@ import { UserCreateDto } from "../DTOs/createUser.dto";
    constructor(private readonly userService: UserService){}
 
 @Get()
- //  @UseGuards(AuthGuard,RolesGuard)
-  // @Roles(Role.Admin)//definir guarda de roles, despues del authguard, user/admin ---> Ruta protegida 200
+  //@UseGuards(AuthGuard, RolesGuard)
+ //@Roles(Role.Admin)//definir guarda de roles, despues del authguard, user/admin ---> Ruta protegida 200
    async getUsers(@Res() res:Response):Promise<Response>{
     try{
       const users = await this.userService.getUsers();

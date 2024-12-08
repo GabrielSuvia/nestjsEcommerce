@@ -20,7 +20,7 @@ async addCategories(products: {name:string,description:string,
 
     const arrCat = await this.categoriesDB.find();//[]
     const listCat = []
-    console.log(arrCat)
+
   //verify if the categories is already exist
     if(arrCat && arrCat.length === 0){
     products.forEach((prod)=>{

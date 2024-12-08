@@ -165,29 +165,22 @@ console.log(reverseLinkedList(head))
     //stack-pilas  8/10/2024
 
     //Verifica si una secuencia de paréntesis es válida utilizando una pila.
-    const cadena = '(({[]}))'
-    function isValidParentheses(s) {
-    const stack = [];
-    const map = {
-        '(': ')',
-        '{': '}',
-        '[': ']'
-    };
-    for (let char of s) {
-        console.log('1',char)//(
-        if (map[char]) {
-            console.log('2',map[char])//)
-            stack.push(map[char]);
-        } else if (stack.length > 0 && stack[stack.length - 1] === char) {//)
-            stack.pop();
-            console.log('3',stack)
-        } else {
-            return false;
-        }
+const products = [{name:"televisor",modelo:"asdad"},{name:"televisor",modelo:"asdad"},
+    {name:"celular",modelo:"asdad"},{name:"celular",modelo:"asdad"},{name:"camara",modelo:"asdad"}]
+
+    function searchingData(sataSearch,prodList){
+        
+        if(!prodList){
+            throw new Error('there is an error')
+        };
+        const regex = new RegExp(sataSearch);
+        return prodList.filter(value => regex.test(value.name))
+
     }
-    return stack.length === 0;
-}
-console.log(isValidParentheses(cadena))
+
+
+
+console.log(searchingData('c',products))
     /*
 ----------------------------
 //13/10/2024

@@ -1,5 +1,4 @@
-{
-  "name": "ecommerce-gabriel",
+{"name": "ecommerce-gabriel",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -38,6 +37,7 @@
     "class-validator": "^0.14.1",
     "cloudinary": "^2.3.1",
     "dotenv": "^16.4.5",
+    "express-session": "^1.18.1",
     "pg": "^8.12.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",

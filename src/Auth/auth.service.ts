@@ -25,16 +25,21 @@ async getAuthService(){
    }
    
 async authSignin(email:string, Password:string): Promise<any | null>{
+   console.log("entrando de service")
         const user = await this.userRepository.findOneBy({email});
-      
-      if(!user){
+        console.log("entrando de service2222",email, user.email)
+      if(user.email !==email){
+         console.log("error")
         throw new BadRequestException('email or password incorrect');
       };
       //encriptacion validate
+    console.log("1",Password, "2",user.password)
      const validatePassword = await bcrypt.compare(Password, user.password );//v or f
-     if(validatePassword){
+     console.log("VALIDADO", validatePassword)
+     if(!validatePassword){
       throw new BadRequestException('User Invalid');
      };
+     console.log("USERPEYLOAD")
        const userPayLoad = {
          sub:user.id,
          id:user.id,
@@ -42,15 +47,15 @@ async authSignin(email:string, Password:string): Promise<any | null>{
          roles:[user.isAdmin ? Role.Admin : Role.User],
        }
        const token = this.jtwService.sign(userPayLoad);
-    
+
        //  return {succes:'user logging in succesfully',token};//resolver
-            return token;
+            return {userId:user.id,token};
       }
     
 async signupService(user: Partial<UserCreateDto>){
    console.log('Service1')
             const passwordCompare = user.password === user.confirPassword?true : false;
-            console.log('Service2')
+            console.log('Service2',passwordCompare)
              if(!passwordCompare){
                 throw new BadRequestException('email or password  incorrect');
              };

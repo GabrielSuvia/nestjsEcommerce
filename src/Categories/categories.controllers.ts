@@ -15,11 +15,10 @@ export class CategoriesControllers{
     async getCategoriesControllers(@Res() res:Response){
          try {
           const cate = await this.categoriesService.getCategoriesService();
-          return res.status(200).send({message:'Categories obtenidas', categories:cate})
+          return res.status(200).json({message:'Categories obtenidas', categories:cate})
          } catch (error) {
           throw new HttpException('Server error', HttpStatus.BAD_GATEWAY)
          } 
-        
     }
 
     @Post('seeded')
@@ -29,12 +28,10 @@ export class CategoriesControllers{
             console.log("entradas")
             const categoriasNew = await this.categoriesService.addCategorieService(products);
             console.log('controllers2',categoriasNew)
-             return res.status(201).send({message:'received data', dato:categoriasNew})
+             return res.status(201).json({message:'received data', dato:categoriasNew})
          }catch (error) {
           throw new HttpException('Invalid Category', HttpStatus.BAD_REQUEST)
         }
-      
-//falta??????
         }
         
     }

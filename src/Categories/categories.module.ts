@@ -1,12 +1,11 @@
-import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule} from "@nestjs/common";
 import { CategorieService } from "./categories.service";
 import { CategoriesRespository } from "./categories.repository";
 import { CategoriesControllers } from "./categories.controllers";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Categories } from "./categories.entity";
-import { Products } from "../Products/products.entity";
 import { LogeeMiddleware } from "../middleware/logge.middleware";
-
+import { Products } from "Products/products.entity";
 
 @Module({
     imports:[TypeOrmModule.forFeature([Categories]),TypeOrmModule.forFeature([Products])],

@@ -13,7 +13,7 @@ const config={
        password: process.env.DBPASSWORD,
        autoLoadEntities:true,
        logging:true,
-    //dropSchema:true,
+      // dropSchema:true,
        synchronize:true,//sks
        entities:['dist/**/*.entity{.js,.ts}'],
        migrations: ['dist/migrations/*{.js,.ts}'],//comand npm run migration:generate src/migrations/name

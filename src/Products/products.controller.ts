@@ -32,8 +32,11 @@ async getProducts(@Res() res:Response){
     try {
         console.log('contrller1')
         const products = await this.productService.getProductsService();
-        console.log('contrller2')
-        return res.status(200).json({message:"productos existentes", products:products});
+        console.log('contrller2', products)
+        if(products !== null){
+            return res.status(200).json({message:"productos existentes", products:products});
+        }
+        
     } catch (error) {
         throw new HttpException('Server Error', HttpStatus.BAD_GATEWAY)
     }
@@ -70,7 +73,7 @@ async getProduct(@Res() res:Response, @Param('id', ParseUUIDPipe) id:string){
 
 
 @Put(':id')
-//@UseGuards(AuthGuard)
+//@UseGuards(AuthGuard,RolesGuard)
  async updateProduct(@Param('id', ParseUUIDPipe) id:string,@Body() updateProduct: Partial<Products>, @Res() res:Response){
      try {
         const product = await this.productService.updateProductService(id, updateProduct);
