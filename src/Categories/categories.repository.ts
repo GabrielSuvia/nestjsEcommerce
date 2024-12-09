@@ -2,13 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { Categories } from "./categories.entity";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Products } from "../Products/products.entity";
 
 @Injectable()
 export class CategoriesRespository{
     constructor(@InjectRepository(Categories) private categoriesDB:Repository<Categories>){}
-
-
 
  async getCategories(){
         const categories =  await this.categoriesDB.find({relations:['products']});

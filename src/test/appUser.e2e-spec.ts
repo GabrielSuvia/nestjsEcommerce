@@ -1,9 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';//for usgin the method put and delete
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../app.module';
 import { JwtService } from '@nestjs/jwt';
-import { Role } from '../src/decorator/roles.enum';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;

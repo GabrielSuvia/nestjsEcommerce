@@ -1,9 +1,9 @@
-import { Body, Controller,Delete,Get, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Put, Query, Res, UseGuards} from "@nestjs/common";
+import { Body, Controller,Delete,Get, HttpException, HttpStatus, Param, ParseUUIDPipe, Put, Query, Res, UseGuards} from "@nestjs/common";
 import { UserService } from "./users.service";
 import { Response } from "express";//cambiar todos los src -->a
-import { AuthGuard } from "Auth/auth.guard";
+//import { AuthGuard } from "Auth/auth.guard";
 //import { Roles } from "decorator/roles.decorator";
-import { RolesGuard } from "Auth/roles.guard";
+//import { RolesGuard } from "Auth/roles.guard";
 //import { Role } from "decorator/roles.enum";
 import { UserCreateDto } from "../DTOs/createUser.dto";
 
@@ -60,7 +60,6 @@ try {
 try {
       const user = await this.userService.updateUserService(id,UserUpdate);
        return res.status(200).send({user})
-
 } catch (error) {
   throw new HttpException('Faild to update User',HttpStatus.BAD_REQUEST);
 }

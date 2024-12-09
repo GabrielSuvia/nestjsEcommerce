@@ -21,15 +21,12 @@ export class OrderController{
     //@UseGuards(AuthGuard)
     async getOrderControllers(@Res() res:Response, @Param('id') id:string){
         console.log('Controller1')
-try {
-    console.log('Controller2')
-    const order = await this.orderService.getOrderService(id);
-    console.log('Controller3')
-    return res.status(200).json({order:order});
-} catch (error) {
+    try {
+        const order = await this.orderService.getOrderService(id);
+        return res.status(200).json({order:order});
+        } catch (error) {
     throw new HttpException('invalid Order', HttpStatus.BAD_REQUEST)
 }
-    
     }
 
     @Post('create')
@@ -42,6 +39,5 @@ try {
         } catch (error) {
             throw new HttpException('Invalid user',HttpStatus.BAD_REQUEST)
         }
-             
     }}
               

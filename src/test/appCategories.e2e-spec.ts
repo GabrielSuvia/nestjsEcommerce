@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../src/app.module";
+import { AppModule } from "../app.module";
 import { INestApplication } from "@nestjs/common";
 import * as request from "supertest"
 
@@ -32,7 +32,7 @@ it('GET should return all the categories',async()=>{
 
 })
 
-it('',async()=>{
+it('show the list of categories',async()=>{
 const categoriesList = [{
   "name": "Logitech G Pro",
   "description": "The best keyboard in the world",

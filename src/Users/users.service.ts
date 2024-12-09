@@ -14,7 +14,6 @@ constructor(private readonly userRepository:UserRepository){}
    
    async getUser(id: string){
     const user = await this.userRepository.getUser(id)
-    console.log("Consiguiendo usuarios",user)
     return user;
    }
 
@@ -28,7 +27,7 @@ constructor(private readonly userRepository:UserRepository){}
     return newUser;
    }
    
-   async updateUserService(id:string,userUpdate:Partial<UserCreateDto>){//??????
+   async updateUserService(id:string,userUpdate:Partial<UserCreateDto>){
     const user = await this.userRepository.updateUserRepository(id, userUpdate)
     return user;
    }

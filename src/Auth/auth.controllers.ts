@@ -24,12 +24,7 @@ async getAllAuthControllers(@Res() res:Response){
 @Post('signin')//signup
 async authUserLogin(@Res() res:Response, @Body() userLogin:CreateLoginDto  ){
 try {
-  console.log("entrando!!!")
   const userLog = await this.authService.authSignin(userLogin.email, userLogin.password);
-  console.log(userLog)
-  //const timeToker = 15000;
-  //const objToker = {userLog,timeToker};
-
   if(userLog){
     return res.status(200).json({ message: 'User Logged in successfully', user: userLog }); //No devuelve el usuario
   };
@@ -37,13 +32,10 @@ try {
   throw new Error(error);
 }}
 
-
 @Post('signup')
   async signup(@Body() user:Partial<UserCreateDto> , @Res() res:Response){
     try {
-     console.log('Controler1')
       const User = await this.authService.signupService(user);
-      console.log('Controler2')
       return res.status(201).json({message:'User created', user:User})
     } catch (error) {
       throw new HttpException('Invalid user',HttpStatus.BAD_REQUEST);

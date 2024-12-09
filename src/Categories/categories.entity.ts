@@ -1,17 +1,9 @@
 import { Products } from "../Products/products.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-
-/*id: debe ser un valor único generado automáticamente en formato UUID. No puede ser nulo y actúa como la clave primaria de la entidad.
-
-name: debe ser una cadena de texto de máximo 50 caracteres y no puede ser nulo.
-
-Relación N:1 con products.
-*/
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
     name:'categories'
 })
-
 export class Categories{
  
     @PrimaryGeneratedColumn('uuid')

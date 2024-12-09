@@ -22,7 +22,7 @@ import { CategoriesModule } from './Categories/categories.module';
     JwtModule.register({
       global:true,
       signOptions:{expiresIn:'1h'},
-      secret:process.env.KEY_JWT//Varibale de entorono
+      secret:process.env.KEY_JWT
     }),
      UserModule,CategoriesModule,ProductModule,AuthModule,OrderModule,FilesModule],
   controllers: [],

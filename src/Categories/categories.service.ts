@@ -1,6 +1,5 @@
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { CategoriesRespository } from "./categories.repository";
-import { Categories } from "./categories.entity";
 import { product } from "seeders/products";
 
 @Injectable()
@@ -23,7 +22,5 @@ export class CategorieService implements OnModuleInit {
   async addCategorieService (products:{name:string,description:string,
     price:number, stock:number, category:string}[]):Promise<void> {
     await this.categoriesRepository.addCategories(products);
- 
    }
-
 }

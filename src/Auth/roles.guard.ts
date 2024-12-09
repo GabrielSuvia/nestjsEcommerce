@@ -21,9 +21,7 @@ export class RolesGuard implements CanActivate{
         console.log(request,"supuesto token")
         const hasRole =  ()=>{
             requiredRoles.some((role) => user?.roles?.include(role));}//user valided with authguard
-
             const valid =()=> user && user.roles && hasRole();
-
             if(!valid){
                 throw new ForbiddenException('you don´t have permission and are not allowed to acces to this route')
             }

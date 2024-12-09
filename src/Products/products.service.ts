@@ -19,9 +19,7 @@ export class ProductService implements OnModuleInit{
     }
 
     async getProductsService():Promise<Products[]>{
-        console.log('service1')
         const products = await this.productRepository.getProducts();
-        console.log('service2',products)
         return products;
     }
     
@@ -38,13 +36,11 @@ export class ProductService implements OnModuleInit{
 
     async updateProductService(id:string, updateProduct: Partial<Products>):Promise<Products>{//???
         const product =  await this.productRepository.updateRepository(id, updateProduct)
-        console.log('UPDATE')
         return product;
     }
 
     async createProductService(newProduct: ProductsDto): Promise<Partial<Products>>{
         const productId = await this.productRepository.createRepository(newProduct);
-        console.log("PRODUCTSERVICE",productId);
         return productId;
     }
    
@@ -55,7 +51,6 @@ export class ProductService implements OnModuleInit{
 
     async basicProductService(page:number, limit:number): Promise<Products[]>{
         const products =  await this.productRepository.basicProductRepository(page,limit)
-        console.log('Service',products)
         return products;
 }
 }

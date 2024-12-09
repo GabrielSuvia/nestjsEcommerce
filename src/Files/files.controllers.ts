@@ -3,9 +3,7 @@ import { FilesServices } from "./files.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 //import { AuthGuard } from "src/Auth/auth.guard";
 
-
 @Controller('Files')
-
 export class FilesControllers{
     constructor(private readonly filesService: FilesServices){}
 

@@ -1,13 +1,9 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Post, Res } from "@nestjs/common";
 import { CategorieService } from "./categories.service";
-import { Categories } from "./categories.entity";
 //import { Products } from "src/Products/products.entity";
 import { Response } from "express";
 
-
-
 @Controller('categories')
-
 export class CategoriesControllers{
    constructor(private categoriesService:CategorieService){
    }
@@ -22,16 +18,13 @@ export class CategoriesControllers{
     }
 
     @Post('seeded')
-   async addCategoriesControllers( @Res() res:Response, @Body() products:{name:string,description:string,
+    async addCategoriesControllers( @Res() res:Response, @Body() products:{name:string,description:string,
     price:number, stock:number, category:string}[] ){
           try {
-            console.log("entradas")
             const categoriasNew = await this.categoriesService.addCategorieService(products);
-            console.log('controllers2',categoriasNew)
              return res.status(201).json({message:'received data', dato:categoriasNew})
          }catch (error) {
           throw new HttpException('Invalid Category', HttpStatus.BAD_REQUEST)
         }
         }
-        
     }

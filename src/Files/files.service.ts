@@ -20,11 +20,8 @@ export class FilesServices{
                     }
                   }
              )
-             
              toStream(file.buffer).pipe(upload);
              await this.fileRepository.updateFile(file, productId);
             });
-
-            
     }
 }

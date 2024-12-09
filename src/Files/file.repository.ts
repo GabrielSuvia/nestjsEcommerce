@@ -16,7 +16,6 @@ export class FilesRepository{
                 await this.productRepositoryDB.save(product);
                 console.log('Servicios',product)
                };
-
                return product;
                 
     }

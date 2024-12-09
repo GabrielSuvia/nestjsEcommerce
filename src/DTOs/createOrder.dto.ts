@@ -1,8 +1,6 @@
 import { IsArray, IsDate, IsNotEmpty, IsObject, IsUUID } from 'class-validator';
 import { Products } from '../Products/products.entity';
 
-
-
 export class OrderCreateDto{
     
        @IsUUID()
@@ -16,5 +14,4 @@ export class OrderCreateDto{
         @IsArray()
         @IsNotEmpty()
         products:Promise<Products>[]
-    
 }

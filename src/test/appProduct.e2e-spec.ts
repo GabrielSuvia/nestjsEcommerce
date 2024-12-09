@@ -1,8 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing"
-import { AppModule } from "../src/app.module"
+import { AppModule } from "../app.module"
 import { INestApplication } from "@nestjs/common"
 import { Repository } from "typeorm";
-import { Products } from "../src/Products/products.entity";
+import { Products } from "../Products/products.entity";
 import * as request from 'supertest';//for usgin the method put and delete
 
 describe('appController',()=>{
