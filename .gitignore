@@ -20,7 +20,7 @@ lerna-debug.log*
 /.nyc_output
 src/test
 src/testUnitary
-jest.config.ts
+./jest.config.ts
 # IDEs and editors
 /.idea
 .project
