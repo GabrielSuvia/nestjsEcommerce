@@ -8,7 +8,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe())
   
   app.enableCors({
-    origin:'http://localhost:3000',//dominio frontend
+    origin:'https://nextjsecommerce-production.up.railway.app',//dominio frontend
     methods:'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials:true//for cookies or headerof authentication
   })
