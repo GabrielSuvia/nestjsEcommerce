@@ -4,11 +4,11 @@ import { registerAs } from "@nestjs/config";
 dotenvConfig({path: 'src/.env.development'});
 const config={
       type: "postgres",//process.env.DB_NAME.
-      database: process.env.DBNAMER,
-       host:process.env.DBHOSTR,
-       port: Number(process.env.DBPORTR),
-       username: process.env.DBUSERNAMER,
-       password: process.env.DBPASSWORDR,
+      database: process.env.DBNAME,
+       host:process.env.DBHOST,
+       port: Number(process.env.DBPORT),
+       username: process.env.DBUSERNAME,
+       password: process.env.DBPASSWORD,
        autoLoadEntities:true,
        logging:true,
       // dropSchema:true,
