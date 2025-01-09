@@ -6,12 +6,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe())
-/*
+
   app.enableCors({
     origin:'https://nextjsecommerce-production.up.railway.app',
     methods:'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials:true//for cookies or headerof authentication
-  })*/
+  })
   const swaggerConfig = new DocumentBuilder()
                                   .setTitle('demoProyecto')
                                   .setDescription('trying the api to swagger')
