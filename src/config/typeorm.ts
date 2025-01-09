@@ -14,7 +14,7 @@ const config={
       // dropSchema:true,
       synchronize:true,
        entities:['dist/**/*.entity{.js,.ts}'],
-       migrations: ['dist/migrations/*{.js,.ts}'],//comand npm run migration:generate src/migrations/name
+       migrations: ['dist/migrations/*{.js,.ts}'],//comand .npm run migration:generate src/migrations/name
 }
 export default registerAs('typeorms',()=> config)//REVISAR
 
