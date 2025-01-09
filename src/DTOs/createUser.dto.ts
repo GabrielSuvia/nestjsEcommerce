@@ -37,7 +37,7 @@ export class UserCreateDto{
     @IsPhoneNumber(null)
     @IsNotEmpty()
     @ApiProperty({
-        example:7678678
+        example:76786784
     })
     phone: number
 
