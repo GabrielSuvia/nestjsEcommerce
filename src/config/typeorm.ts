@@ -16,6 +16,7 @@ const config={
        entities:['dist/**/*.entity{.js,.ts}'],
        migrations: ['dist/migrations/*{.js,.ts}'],//comand .npm run .migration:generate src/migrations/name
 }
+console.log("Environment:",Number(process.env.DBPORT), process.env.DBNAME, process.env.DBUSERNAME )
 export default registerAs('typeorms',()=> config)//REVISAR
 
 export const connectionSource = new DataSource(config as DataSourceOptions)
