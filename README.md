@@ -1,9 +1,9 @@
-
 ## Titulo
   NestEcommerce
 
 ## Description
-   Para desarrollar este proyecto de backend se utilizaron como principales tecnologias framework de nestjs con typeScript para la realizacion del codigo y para la DB se utilizo postgres con typeOrm para la coneccion a del servidor a la DB, ademas de clodinary para las imagenes, y como dependencias: jest para las pruebas unit test, bcrypt, dotenv, uuid, etc..
+   Para desarrollar este proyecto de backend se utilizaron como principales tecnologias el framework de nestjs con typeScript para la realizacion del codigo y para la DB se utilizo postgres con typeOrm para la coneccion del servidor a la DB, ademas de clodinary para las imagenes.
+
 ## Clonar proyecto
   git clone https://github.com/GabrielSuvia/nestjsEcommerce.  
   
