@@ -33,7 +33,7 @@ try {
 }}
 
 @Post('signup')
-  async signup(@Body() user:Partial<UserCreateDto> , @Res() res:Response){
+  async signup(@Body() user:UserCreateDto , @Res() res:Response){
     try {
       const User = await this.authService.signupService(user);
       return res.status(201).json({message:'User created', user:User})

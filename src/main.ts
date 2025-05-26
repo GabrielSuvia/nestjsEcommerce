@@ -8,10 +8,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe())
 
   app.enableCors({
-    origin:'https://nextjsecommerce-production.up.railway.app',
-    methods:'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials:true//for cookies or headerof authentication
-  })
+    origin: ['http://localhost:3000'], // Permite este dominio
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
   const swaggerConfig = new DocumentBuilder()
                                   .setTitle('demoProyecto')
                                   .setDescription('trying the api to swagger')

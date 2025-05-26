@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Type } from 'class-transformer';
-import{IsString, IsNotEmpty, IsEmail, IsArray, ValidateNested, MinLength, MaxLength, Matches, IsPhoneNumber, IsBoolean, IsDate} from 'class-validator';
+import{IsString, IsNotEmpty, IsEmail, IsArray, ValidateNested, MinLength, MaxLength, Matches, IsPhoneNumber, IsBoolean, IsDate, IsOptional} from 'class-validator';
 import { Orders } from '../Order/orders.entity';
 
 export class UserCreateDto{
@@ -34,11 +34,8 @@ export class UserCreateDto{
     @MaxLength(80)
     address: string
 
-    @IsPhoneNumber(null)
+
     @IsNotEmpty()
-    @ApiProperty({
-        example:76786784
-    })
     phone: number
 
     @IsString()
@@ -53,10 +50,12 @@ export class UserCreateDto{
     @MaxLength(20)
     city:string
 
+    @IsOptional()
     @Exclude()
     @IsBoolean()
     isAdmin:boolean
 
+   @IsOptional()
    @IsArray()
    @ValidateNested({each:true})
    @Type(()=>Orders)

@@ -25,15 +25,17 @@ async getAuthService(){
    }
    
 async authSignin(email:string, Password:string): Promise<any | null>{
-
+   console.log("1")
         const user = await this.userRepository.findOneBy({email});
+        console.log("2:",user)
       if(user.email !==email){
          console.log("error")
         throw new BadRequestException('email or password incorrect');
       };
+      console.log("3")
       //encriptacion validate
         const validatePassword = await bcrypt.compare(Password, user.password );//v or f
-
+        console.log("4", validatePassword)
      if(!validatePassword){
       throw new BadRequestException('User Invalid');
      };
